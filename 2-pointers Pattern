@@ -15,3 +15,24 @@ class Solution {
            }
     }
 }}
+----
+#leecode question: https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/
+code:
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int fixed = 0;
+        int res = 1;
+        int forwd = 1;
+        while(forwd<nums.length){
+            if(nums[forwd] == nums[forwd - 1]){
+                forwd++;
+                continue;
+            }
+            nums[fixed+1] = nums[forwd];
+            fixed++;
+            forwd++;
+            res++;
+        }
+        return res;
+    }
+}
