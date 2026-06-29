@@ -44,8 +44,6 @@ public int[] sortedSquares(int[] nums) {
 int n = nums.length;
 List<Integer> neg = new ArrayList<>();
 List<Integer> pos = new ArrayList<>();
-
-```
     // Separate negative and positive numbers
     for (int num : nums) {
         if (num < 0)
@@ -106,8 +104,6 @@ List<Integer> pos = new ArrayList<>();
 
     return res;
 }
-```
-
 }
 ---
 #leetcode question: https://leetcode.com/problems/squares-of-a-sorted-array/
