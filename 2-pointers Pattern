@@ -223,7 +223,7 @@ class Solution {
             if(sum == target){
                result.add(Arrays.asList(nums[i], nums[left], nums[right]));
                 left+=1;
-                right -=1;
+                right -=1;            
                 while(left<n && nums[left]==nums[left-1]){
                     left += 1;
                 }
@@ -242,6 +242,45 @@ class Solution {
     return result;
     } 
 }
+
+#Another code: for simple to understand
+ <List<List<Integer>> result = new ArrayList<>();
+    //  Here is the sorted for the 2 - pointer
+     Arrays.Sort(nums); 
+    //  for fixing the i which is iterated to every element
+     for(int i=0; i<nums.length-2;i++){
+        // skip, if duplicated 
+        if(i>0 && nums[i] == nums[i-1]){
+            continue;
+        }
+        // set the left and right
+        int left = i+1;
+        int right = nums.length -1;
+        // next loop for the three cases : 1.sum == 0, 2.sum>0, 3.sum<0
+        while(left<right){
+            // store the sum of triplet
+            int sum = num[i] + nums[left] + nums[right];
+            // checking the sum is equal to zero
+            if(sum == 0){
+                result.add(Arrays.asList(nums[i],nums[left],nums[right]));
+
+                while(left<right && nums[left] == nums[left+1]){
+                    left++;
+                }
+                while(left<right && nums[right] == nums[right -1]){
+                    right--;
+                }
+                left++;
+                right--;
+            }else if(sum<0){
+                left++;
+            }else{
+                right--;
+            }
+        } 
+     }
+     return result;
+//time complexity is O(n2) and space complexity is o(1)
 
 ---
 Leetcode Question: https://leetcode.com/problems/sort-colors/description/
@@ -276,3 +315,4 @@ class Solution {
         }
     }
 }
+
