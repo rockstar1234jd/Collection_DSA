@@ -171,3 +171,37 @@ Map<Character, Integer> map = new HashMap<>();
         }
 
         return maxLen;
+
+Code: ANOTHER CODE FOR THIS PROBLEM
+class Solution {
+    public int findMax(int[] freq){
+        int max = -1;
+        for(int i = 0; i< 256; i++){
+            max = Math.max(max, freq[i]);
+        }
+        return max;
+    }
+    public int characterReplacement(String s, int k) {
+            int n = s.length();
+            int[] freq = new int[256];
+        
+            int left = 0;
+            int maxLen = 0;
+            for(int right = 0; right<n; right++){
+                freq[s.charAt(right)]++;
+                int maxFreq = findMax(freq);
+                int len = right - left + 1;
+                int replace = len - maxFreq;
+                while(replace > k){
+                    freq[s.charAt(left)]--;
+                    left++;
+                    maxFreq = findMax(freq);
+                    len = right - left + 1;
+                    replace  = len - maxFreq;
+                }
+                maxLen = Math.max(maxLen,right - left + 1);
+
+            }
+            return maxLen;
+          }
+}
