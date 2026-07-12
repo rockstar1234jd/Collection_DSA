@@ -205,3 +205,42 @@ class Solution {
             return maxLen;
           }
 }
+
+---
+Title: Sliding Window Maximum (Deque)
+Code: 
+import java.util.*;
+
+class Solution {
+
+    public int[] maxSlidingWindow(int[] arr, int k) {
+
+        Deque<Integer> deque = new LinkedList<>();
+        int[] answer = new int[arr.length - k + 1];
+
+        int answerIndex = 0;
+
+        for (int right = 0; right < arr.length; right++) {
+
+            // Remove indices outside the current window
+            while (!deque.isEmpty() && deque.peekFirst() <= right - k) {
+                deque.pollFirst();
+            }
+
+            // Remove smaller elements from the back
+            while (!deque.isEmpty() && arr[deque.peekLast()] < arr[right]) {
+                deque.pollLast();
+            }
+
+            // Add current index
+            deque.offerLast(right);
+
+            // Save answer when the first window is formed
+            if (right >= k - 1) {
+                answer[answerIndex++] = arr[deque.peekFirst()];
+            }
+        }
+
+        return answer;
+    }
+}
