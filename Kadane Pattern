@@ -38,3 +38,22 @@ Code:
         } return res;
     }
 }
+
+---
+4. Kadane one deletion
+Link: https://leetcode.com/problems/maximum-subarray-sum-with-one-deletion/description/
+Code: 
+int i = 0;
+int power = 0;
+int nopower = nums[i];
+int res = nums[i];
+ for( i=1; i<nums.length; i++){
+    int v1 = nums[i];
+    int v2 = nopower + nums[i];
+    int v3 = power + nums[i];
+    int v4 = nopower;
+
+    res = Math.max(res,Math.max(Math.max(v1,v2),Math.max(v3,v4)));
+    nopower = Math.max(v1, v2);
+    power = Math.max(v3, v4);
+ } return res;
