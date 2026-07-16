@@ -1,0 +1,17 @@
+1. Maximum subarray sum
+link : https://leetcode.com/problems/maximum-subarray/description
+Code: 
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int i = 0;
+        int bestEnding = nums[i]; 
+        int res = nums[i];
+        for( i=1; i<nums.length; i++ ){
+            int v1 = bestEnding + nums[i];
+            int v2 = nums[i];
+
+            bestEnding = Math.max(v1, v2);
+            res = Math.max(res, bestEnding);
+        } return res;
+    }
+}
