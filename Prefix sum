@@ -23,26 +23,22 @@ class Solution {
 2.Find the pivot index
 Link: https://leetcode.com/problems/find-pivot-index/description/
 Code:
-class Solution{
-public int pivotIndex(int[] nums) {
-        int lSum = 0;
-        int rSum = 0;
-        
-        for (int i = 1; i < nums.length; i++) {
-            rSum += nums[i];
+class Solution {
+    public int pivotIndex(int[] nums) {
+        int total = 0;
+        // find the total sum.
+        for(int num:nums){
+            total += num;
         }
-
-        for (int i = 0; i < nums.length; i++) {
-            if (lSum == rSum) {
-                System.gc();
+        // create the left and right logic
+        int left = 0;
+        for(int i=0; i<nums.length; i++){
+            int right = total - nums[i] - left;
+            if(left == right){
                 return i;
             }
-
-            lSum += nums[i];
-            rSum = (i == nums.length - 1) ? 0 : rSum - nums[i + 1];
+            left += nums[i];
         }
-
-        System.gc();
         return -1;
     }
 }
