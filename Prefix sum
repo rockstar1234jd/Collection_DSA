@@ -1,4 +1,4 @@
-1. Find the pivot index
+1. Subarray Sum Equals K
 Link: https://leetcode.com/problems/subarray-sum-equals-k/description/
 Code: 
 class Solution {
