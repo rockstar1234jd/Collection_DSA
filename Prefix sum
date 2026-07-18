@@ -18,3 +18,31 @@ class Solution {
       return ans;
     }
 }
+
+---
+2.Find the pivot index
+Link: https://leetcode.com/problems/find-pivot-index/description/
+Code:
+class Solution{
+public int pivotIndex(int[] nums) {
+        int lSum = 0;
+        int rSum = 0;
+        
+        for (int i = 1; i < nums.length; i++) {
+            rSum += nums[i];
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (lSum == rSum) {
+                System.gc();
+                return i;
+            }
+
+            lSum += nums[i];
+            rSum = (i == nums.length - 1) ? 0 : rSum - nums[i + 1];
+        }
+
+        System.gc();
+        return -1;
+    }
+}
