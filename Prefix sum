@@ -125,3 +125,78 @@ class Solution {
         return ans;
     }
 }
+
+---
+10. Count Range Sum ---> Hardest type in prefix Sum pattern
+link: https://leetcode.com/problems/count-of-range-sum/
+Code:
+class Solution {
+
+    public int countRangeSum(int[] nums, int lower, int upper) {
+
+        long[] pre = new long[nums.length + 1];
+
+        for (int i = 0; i < nums.length; i++) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+
+        return mergeSort(pre, 0, pre.length - 1, lower, upper);
+    }
+
+    private int mergeSort(long[] pre, int l, int r, int lower, int upper) {
+
+        if (l >= r) {
+            return 0;
+        }
+
+        int mid = (l + r) / 2;
+
+        int count = mergeSort(pre, l, mid, lower, upper)
+                + mergeSort(pre, mid + 1, r, lower, upper);
+
+        int low = mid + 1;
+        int high = mid + 1;
+
+        for (int i = l; i <= mid; i++) {
+
+            while (low <= r && pre[low] - pre[i] < lower) {
+                low++;
+            }
+
+            while (high <= r && pre[high] - pre[i] <= upper) {
+                high++;
+            }
+
+            count += high - low;
+        }
+
+        long[] temp = new long[r - l + 1];
+
+        int i = l;
+        int j = mid + 1;
+        int k = 0;
+
+        while (i <= mid && j <= r) {
+
+            if (pre[i] <= pre[j]) {
+                temp[k++] = pre[i++];
+            } else {
+                temp[k++] = pre[j++];
+            }
+        }
+
+        while (i <= mid) {
+            temp[k++] = pre[i++];
+        }
+
+        while (j <= r) {
+            temp[k++] = pre[j++];
+        }
+
+        for (i = l; i <= r; i++) {
+            pre[i] = temp[i - l];
+        }
+
+        return count;
+    }
+}
