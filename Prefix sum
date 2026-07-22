@@ -200,3 +200,53 @@ class Solution {
         return count;
     }
 }
+
+Another solution that is better in runtime.
+
+Code:
+class Solution {
+    public int countRangeSum(int[] nums, int lower, int upper) {
+        int n = nums.length;
+        // Prefix sums: pre[k] = sum(nums[0..k-1])
+        long[] pre = new long[n + 1];
+        for (int i = 0; i < n; i++) {
+            pre[i + 1] = pre[i] + nums[i];
+        }
+        // Reusable temporary array for merge steps
+        long[] tmp = new long[n + 1];
+        return (int) solve(pre, tmp, 0, n, lower, upper);
+    }
+
+    private long solve(long[] a, long[] t, int l, int r, long low, long high) {
+        if (l >= r) return 0;
+        int m = (l + r) >>> 1;
+        long cnt = solve(a, t, l, m, low, high) + solve(a, t, m + 1, r, low, high);
+
+        // Count valid pairs (i, k) where i in [l, m], k in [m+1, r]
+        // Condition: low <= a[k] - a[i] <= high  =>  a[k] - high <= a[i] <= a[k] - low
+        // Both halves are sorted, enabling O(N) two-pointer scan
+        int i = l, j = l;
+        for (int k = m + 1; k <= r; k++) {
+            long minV = a[k] - high;
+            long maxV = a[k] - low;
+            while (i <= m && a[i] < minV) i++;
+            while (j <= m && a[j] <= maxV) j++;
+            cnt += j - i;
+        }
+
+        // Skip merge if already globally sorted (common optimization)
+        if (a[m] <= a[m + 1]) return cnt;
+
+        // Standard merge of two sorted halves
+        int p = l, q = m + 1, k = l;
+        while (p <= m && q <= r) {
+            t[k++] = (a[p] <= a[q]) ? a[p++] : a[q++];
+        }
+        while (p <= m) t[k++] = a[p++];
+        while (q <= r) t[k++] = a[q++];
+        
+        // Native array copy is highly optimized in HotSpot JVM
+        System.arraycopy(t, l, a, l, r - l + 1);
+        return cnt;
+    }
+}
