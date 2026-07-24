@@ -86,3 +86,48 @@ class Solution {
         return res.toArray(new int[res.size()][]);
     }
 }
+
+Another code but time complexity is higher then first;
+code:
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+
+        // Step 1: Convert array to list
+        List<int[]> list = new ArrayList<>();
+        for (int[] interval : intervals) {
+            list.add(interval);
+        }
+
+        // Step 2: Add the new interval
+        list.add(newInterval);
+
+        // Step 3: Convert list back to array
+        int[][] arr = list.toArray(new int[list.size()][]);
+
+        // Step 4: Sort intervals
+        Arrays.sort(arr, (a, b) -> a[0] - b[0]);
+
+        // Step 5: Merge intervals
+        List<int[]> res = new ArrayList<>();
+        int start = arr[0][0];
+        int end = arr[0][1];
+        for (int i = 1; i < arr.length; i++) {
+            int s = arr[i][0];
+            int e = arr[i][1];
+            // Overlap
+            if (end >= s) {
+                end = Math.max(end, e);
+            }
+            // No Overlap
+            else {
+                res.add(new int[]{start, end});
+                start = s;
+                end = e;
+            }
+        }
+
+        // Add last interval
+        res.add(new int[]{start, end});
+        return res.toArray(new int[res.size()][]);
+    }
+}
