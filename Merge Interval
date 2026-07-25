@@ -133,7 +133,7 @@ class Solution {
 }
 
 ---
-4. Interval list intersections
+4. Interval list intersections {Type -> Medium}
 Link: https://leetcode.com/problems/interval-list-intersections/description/
 Code:
 class Solution {
