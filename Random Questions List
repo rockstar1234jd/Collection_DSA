@@ -143,3 +143,17 @@ class GFG {
     }
 }
 }
+
+---
+6. TypeCast and double it
+Link: https://www.geeksforgeeks.org/problems/typecast-and-double-it--153103/1
+Code:
+import java.util.*;
+class GFG {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        String num = sc.nextLine();
+        int num1 = Integer.parseInt(num);
+        System.out.print(num1 * 2);
+    }
+}
