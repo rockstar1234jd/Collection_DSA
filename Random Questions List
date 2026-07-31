@@ -157,3 +157,22 @@ class GFG {
         System.out.print(num1 * 2);
     }
 }
+
+---
+7. Right Angle Triangle 2
+Link: https://www.geeksforgeeks.org/problems/right-angle-triangle-2-1605689820--102106
+Code:
+class Solution {
+    public void printPattern(int n) {
+        for(int i = 1; i<= n; i++){
+            for(int j = 1; j<= i; j++){
+                if(i == n || j == 1 || i == j){
+                    System.out.print("* ");
+                }else{
+                    System.out.print("  ");
+                }
+            }
+                System.out.println();
+        }
+    }
+}
