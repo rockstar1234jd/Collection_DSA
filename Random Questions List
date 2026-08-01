@@ -176,3 +176,28 @@ class Solution {
         }
     }
 }
+
+---
+8. Common Element {Type -> Easy}
+link: https://www.geeksforgeeks.org/problems/common-elements5420
+Code:
+class Solution {
+    public static ArrayList<Integer> commonElements(int a[], int b[]) {
+        Arrays.sort(a);
+        Arrays.sort(b);
+        ArrayList<Integer> ans = new ArrayList<>();
+        int i = 0, j = 0;
+        while (i < a.length && j < b.length) {
+            if (a[i] == b[j]) {
+                ans.add(a[i]);
+                i++;
+                j++;
+            } else if (a[i] < b[j]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+        return ans;
+        }
+    }
