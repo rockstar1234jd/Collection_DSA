@@ -262,3 +262,21 @@ class Solution {
       return String.format("%.2f", avg);
     }
 }
+
+---
+12. next() and nextLine()
+Line: https://www.geeksforgeeks.org/problems/nextline-and-next
+Code:
+class Geeks {
+    static void getInput() {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt(); // Taking the number of testcases
+        while (t-- > 0) {
+            int a = sc.nextInt();
+            sc.nextLine(); //Consume the leftover new line
+            String s = sc.nextLine();
+            System.out.println(a);
+            System.out.println(s);
+        }
+    }
+}
