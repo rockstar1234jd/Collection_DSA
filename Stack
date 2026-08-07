@@ -50,3 +50,22 @@ class MinStack {
         return minStack.peek();
     }
 }
+
+3. Next Gretaer II {Type -> Medium}
+Link: https://leetcode.com/problems/next-greater-element-ii/description/
+Code:
+int n = nums.length;
+        int[] ans = new int[n];
+        Arrays.fill(ans, -1);
+        Stack<Integer> st = new Stack<>();
+        for (int i = 0; i < 2 * n; i++) {
+            int index = i % n;
+            while (!st.isEmpty() &&
+                    nums[index] > nums[st.peek()]) {
+                ans[st.pop()] = nums[index];
+            }
+            if (i < n) {
+                st.push(index);
+            }
+        }
+        return ans;
