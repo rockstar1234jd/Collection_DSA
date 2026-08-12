@@ -339,3 +339,21 @@ class Solution {
             return st.toString();
         }
     }
+
+---
+16. Print Square wall {Type -> EASY}
+Link: https://www.geeksforgeeks.org/problems/print-square-wall-1605682270--111211
+Code:
+import java.util.Scanner;
+class GFG {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        for(int i=0; i<n; i++){
+            for(int j =0; j<n ; j++){
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+}
