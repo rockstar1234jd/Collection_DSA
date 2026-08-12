@@ -357,3 +357,22 @@ class GFG {
         }
     }
 }
+
+---
+17. Length of last word {Type -> Easy}
+Link: https://leetcode.com/problems/length-of-last-word
+Code:
+class Solution {
+    public int lengthOfLastWord(String s) {
+        int n  = s.length() - 1;
+        while(n >= 0  && s.charAt(n) == ' '){
+            n--;
+        }
+        int count = 0;
+        while( n >= 0 && s.charAt(n) != ' '){
+            count++;
+            n--;
+        }
+        return count;
+    }
+}
