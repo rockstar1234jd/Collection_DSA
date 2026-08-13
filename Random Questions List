@@ -404,3 +404,18 @@ public static String findDay(int month, int day, int year) {
 
     return days[h];
 }
+
+---
+19. Decrement Array Values {Type -> Easy}
+Link: https://www.geeksforgeeks.org/problems/decrement-array-values
+Code:
+class Solution {
+    public static int[] decrementArrayElements(int[] arr) {
+        int[] decrement = new int[arr.length];
+        for(int i = 0; i<arr.length; i++){
+            int c = arr[i] - 1;
+            decrement[i] = c;
+        }
+        return decrement;
+    }
+}
