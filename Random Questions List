@@ -438,3 +438,14 @@ class Solution {
         return result;
     }
 }
+
+---
+21. Day before N days {Type -> easy}
+Link: https://www.geeksforgeeks.org/problems/days-before-n-days--150030/
+Code:
+class Solution {
+    public int dayBefore(int d, int n) {
+        int result = ((d - n) % 7  + 7) % 7;
+        return result;
+    }
+}
