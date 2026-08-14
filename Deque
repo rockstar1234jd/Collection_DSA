@@ -1,1 +1,25 @@
-
+1. Deque Deletion {Type  -> Easy}
+Link : https://www.geeksforgeeks.org/problems/deque-deletion
+Code: 
+class Solution {
+    public void eraseAt(ArrayDeque<Integer> deq, int x) {
+        Iterator<Integer> itr = deq.iterator();
+        int index = 0;
+        while (itr.hasNext()) {
+            itr.next();
+            if (index == x) {
+                itr.remove();
+                break;
+            }
+            index++;
+        }
+    }
+    public void eraseInRange(ArrayDeque<Integer> deq, int start, int end) {
+        for (int i = 0; i < end - start; i++) {
+            eraseAt(deq, start);
+        }
+    }
+    public void eraseAll(ArrayDeque<Integer> deq) {
+        deq.clear();
+    }
+}
