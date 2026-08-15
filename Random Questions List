@@ -501,3 +501,22 @@ class Solution {
         return ans;
     }
 }
+
+---
+24. Java Loop | Set 1    {Type -> Easy} GFG
+Link: https://www.geeksforgeeks.org/problems/java-loops-set-11726
+Code: 
+class Solution {
+    static ArrayList<Integer> getSum(int N) {
+        int sum1 = 0;
+        int sum = 0 ;
+        for(int i = 1; i<=N;i++){
+            if(i % 2 == 0){
+                sum1 += i;
+            }else{
+                sum += i;
+            }
+        }
+        return new ArrayList<>(Arrays.asList(sum1,sum));
+    }
+}
