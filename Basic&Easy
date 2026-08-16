@@ -1,1 +1,21 @@
+1. Java 1-d and 2-d Array  {Type -> Basic}   GFG
+Link : https://www.geeksforgeeks.org/problems/java-1-d-and-2-d-array2952
+Code :
+class Complete {
+    public static ArrayList<Integer> array(int a[][], int b[], int n) {
+        int sum = 0;
+        int big = 0;
+        for(int i = 0; i < n*n; i++){
+            for(int j = 0; j < n; j++){
+                if(i == j){
+                    sum += a[i][j];
+                }
+                if(b[j] > big){
+                    big = b[j];
+                }
+            }
+        }
+        return new ArrayList<>(Arrays.asList(sum,big));
+    }
+}
 
