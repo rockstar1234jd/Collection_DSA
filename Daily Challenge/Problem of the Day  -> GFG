@@ -1,1 +1,33 @@
-
+1. Min Product Subset  {Type  -> Medium}  16-08-2026
+Link: https://www.geeksforgeeks.org/problems/max-and-min-products3347/1
+Code:
+class Solution {
+    public int minProd(int[] arr) {
+       int negativeCount = 0;
+       int maxNegative = Integer.MIN_VALUE;
+       int minPositive = Integer.MAX_VALUE;
+       int zeroCount = 0;
+       long product = 1;
+       for (int x : arr) {
+           if (x < 0) {
+               negativeCount++;
+               product *= x;
+               maxNegative = Math.max(maxNegative, x);
+           } else if (x == 0) {
+               zeroCount++;
+           } else {
+               minPositive = Math.min(minPositive, x);
+               product *= x;
+           }
+       }
+       if (negativeCount == 0) {
+           if (zeroCount > 0)
+               return 0;
+           return minPositive;
+       }
+       if (negativeCount % 2 == 0) {
+           product /= maxNegative;
+       }
+       return (int) product;
+    }
+}
