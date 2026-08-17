@@ -31,3 +31,50 @@ class Solution {
        return (int) product;
     }
 }
+
+---
+2. Snake and Ladder Question {Type -> Medium}  GFG
+Link: https://www.geeksforgeeks.org/problems/snake-and-ladder-problem4816/1
+Code:
+class Solution {
+    public int minThrows(int n, int[] lad, int[] sn) {
+        int total = n * n;
+        int[] jump = new int[total + 1];
+        Arrays.fill(jump, 0);
+        for (int i = 0; i < lad.length; i += 2) {
+            jump[lad[i]] = lad[i + 1];
+        }
+        for (int i = 0; i < sn.length; i += 2) {
+            jump[sn[i]] = sn[i + 1];
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[total + 1];
+        queue.offer(1);
+        visited[1] = true;
+        int throwsCount = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int current = queue.poll();
+                if (current == total) {
+                    return throwsCount;
+                }
+                for (int dice = 1; dice <= 6; dice++) {
+                    int next = current + dice;
+                    if (next > total) {
+                        break;
+                    }
+                    if (jump[next] != 0) {
+                        next = jump[next];
+                    }
+                    if (!visited[next]) {
+                        visited[next] = true;
+                        queue.offer(next);
+                    }
+                }
+            }
+            throwsCount++;
+        }
+        return -1;
+    }
+}
