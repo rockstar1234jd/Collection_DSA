@@ -33,7 +33,7 @@ class Solution {
 }
 
 ---
-2. Snake and Ladder Question {Type -> Medium}  GFG
+2. Snake and Ladder Question {Type -> Medium}  17-08-2026
 Link: https://www.geeksforgeeks.org/problems/snake-and-ladder-problem4816/1
 Code:
 class Solution {
@@ -110,5 +110,34 @@ class Solution {
             }
         }
         return ans.reverse().toString();
+    }
+}
+
+---
+4. Triplets with Sum in Range {Type -> Medium} 19-08-2026
+Link: https://www.geeksforgeeks.org/problems/triplets-with-sum-with-given-range/1
+Code:
+class Solution {
+    static long countTriplets(int[] arr, int l, int r) {
+        Arrays.sort(arr);
+        return count(arr, r) - count(arr, l - 1);
+    }
+    static long count(int[] arr, int x) {
+        int n = arr.length;
+        long ans = 0;
+        for (int i = 0; i < n - 2; i++) {
+            int left = i + 1;
+            int right = n - 1;
+            while (left < right) {
+                int sum = arr[i] + arr[left] + arr[right];
+                if (sum <= x) {
+                    ans += right - left;
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        return ans;
     }
 }
