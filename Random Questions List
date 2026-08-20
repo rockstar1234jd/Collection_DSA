@@ -534,3 +534,17 @@ class Solution {
        System.out.print(n + " ");
     }
 }
+
+---
+26. Print n to 1 Without Loop {Type -> Basic} GFG
+Link: https://www.geeksforgeeks.org/problems/print-n-to-1-without-loop/1
+Code:
+class Solution {
+    void printNos(int n) {
+        if(n == 0){
+            return;
+        }
+        System.out.print(n + " ");
+        printNos(n-1);
+    }
+}
