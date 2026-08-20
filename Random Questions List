@@ -520,3 +520,17 @@ class Solution {
         return new ArrayList<>(Arrays.asList(sum1,sum));
     }
 }
+
+---
+25. 1 to n Without Loops {Type -> Basic} GFG
+Link: https://www.geeksforgeeks.org/problems/print-1-to-n-without-using-loops3621/1
+Code:
+class Solution {
+    public void printTillN(int n) {
+       if (n == 0) {
+           return;
+       }
+       printTillN(n - 1);
+       System.out.print(n + " ");
+    }
+}
