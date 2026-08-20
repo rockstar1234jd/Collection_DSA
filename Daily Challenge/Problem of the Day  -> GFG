@@ -141,3 +141,24 @@ class Solution {
         return ans;
     }
 }
+
+---
+5. Node and Ancestor Max Diff {Type -> Medium} 20-08-2026
+Link: https://www.geeksforgeeks.org/problems/maximum-difference-between-node-and-its-ancestor/1
+Code:
+class Solution {
+    int ans = Integer.MIN_VALUE;
+    public int maxDiff(Node root) {
+        if (root == null) return 0;
+        dfs(root.left, root.data);
+        dfs(root.right, root.data);
+        return ans;
+    }
+    private void dfs(Node node, int maxAncestor) {
+        if (node == null) return;
+        ans = Math.max(ans, maxAncestor - node.data);
+        maxAncestor = Math.max(maxAncestor, node.data);
+        dfs(node.left, maxAncestor);
+        dfs(node.right, maxAncestor);
+    }
+}
