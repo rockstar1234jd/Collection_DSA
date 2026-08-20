@@ -1,1 +1,19 @@
-
+1. Binary Search {Type -> Easy} Leetcode -> 704
+Link: https://leetcode.com/problems/binary-search
+Code:
+class Solution {
+    public int search(int[] nums, int target) {
+        int low  = 0, high = nums.length - 1;
+        while(low<=high){
+            int guess = (low + high) / 2;
+            if(nums[guess] == target){
+                return guess;
+            }else if(nums[guess] > target){
+                high = guess - 1;
+            }else{
+                low = guess + 1;
+            }
+        }
+        return -1;
+    }
+}
