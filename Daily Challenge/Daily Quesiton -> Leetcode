@@ -205,3 +205,22 @@ class Solution {
         return a;
     }
 }
+
+---
+7. Check Divisibility by Digit Sum and Product [Type -> Easy} Leetcode -> 3622
+Link: https://leetcode.com/problems/check-divisibility-by-digit-sum-and-product
+Code:
+class Solution {
+    public boolean checkDivisibility(int n) {
+        int sum = 0;
+        int product = 1;
+        int x = n;
+        while (x > 0) {
+            int digit = x % 10;
+            x /= 10;
+            sum += digit;
+            product *= digit;
+        }
+        return n % (sum + product) == 0;
+    }
+}
