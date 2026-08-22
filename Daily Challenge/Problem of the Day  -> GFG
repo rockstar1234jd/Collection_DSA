@@ -195,3 +195,97 @@ class Solution {
         return s1.length() - matched;
     }
 }
+
+--- 
+7. Number of Turns in Binary Tree {Type -> Hard} 22-08-2026
+Link: https://www.geeksforgeeks.org/problems/number-of-turns-in-binary-tree/1
+Code:
+class Solution {
+    private Node findLCA(Node root, int p, int q) {
+        if (root == null) {
+            return null;
+        }
+        if (root.data == p || root.data == q) {
+            return root;
+        }
+        Node left = findLCA(root.left, p, q);
+        Node right = findLCA(root.right, p, q);
+        if (left != null && right != null) {
+            return root;
+        }
+        return left != null ? left : right;
+    }
+    // dir:
+    // 0 = no previous direction
+    // 1 = previous direction was LEFT
+    // 2 = previous direction was RIGHT
+    private int countTurns(Node root, int target, int dir) {
+        if (root == null) {
+            return -1;
+        }
+        if (root.data == target) {
+            return 0;
+        }
+        // Move LEFT
+        int left = countTurns(root.left, target, 1);
+        if (left != -1) {
+            if (dir == 2) {
+                left++;
+            }
+            return left;
+        }
+        // Move RIGHT
+        int right = countTurns(root.right, target, 2);
+        if (right != -1) {
+            if (dir == 1) {
+                right++;
+            }
+            return right;
+        }
+        return -1;
+    }
+    public int numberOfTurns(Node root, int p, int q) {
+        Node lca = findLCA(root, p, q);
+        if (lca == null) {
+            return -1;
+        }
+        // If LCA itself is p
+        if (lca.data == p) {
+            int ans = countTurns(lca, q, 0);
+            return ans == 0 ? -1 : ans;
+        }
+        // If LCA itself is q
+        if (lca.data == q) {
+            int ans = countTurns(lca, p, 0);
+            return ans == 0 ? -1 : ans;
+        }
+        // Count turns from LCA to p
+        int turnsP = countTurns(lca, p, 0);
+        // Count turns from LCA to q
+        int turnsQ = countTurns(lca, q, 0);
+        if (turnsP == -1 || turnsQ == -1) {
+            return -1;
+        }
+        // We need to determine whether the first
+        // directions from LCA to p and q are different.
+        boolean pLeft = isInSubtree(lca.left, p);
+        boolean qLeft = isInSubtree(lca.left, q);
+        int ans = turnsP + turnsQ;
+        // If they start in different directions,
+        // there is one additional turn at the LCA.
+        if (pLeft != qLeft) {
+            ans++;
+        }
+        return ans == 0 ? -1 : ans;
+    }
+    private boolean isInSubtree(Node root, int target) {
+        if (root == null) {
+            return false;
+        }
+        if (root.data == target) {
+            return true;
+        }
+        return isInSubtree(root.left, target)
+                || isInSubtree(root.right, target);
+    }
+}
