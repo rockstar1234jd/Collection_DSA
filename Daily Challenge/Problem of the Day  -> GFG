@@ -289,3 +289,95 @@ class Solution {
                 || isInSubtree(root.right, target);
     }
 }
+
+---
+8. Geek in a Maze {Type -> Hard} 23-08-2026
+Link: https://www.geeksforgeeks.org/problems/geek-in-a-maze--170637/1
+Code:
+import java.util.*;
+
+class Solution {
+    public int numberOfCells(int r, int c, int u, int d, char[][] mat) {
+
+        int n = mat.length;
+        int m = mat[0].length;
+
+        if (mat[r][c] == '#') {
+            return 0;
+        }
+
+        // dist[i][j] = minimum number of upward moves
+        // required to reach (i, j)
+        int[][] dist = new int[n][m];
+
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dist[i], Integer.MAX_VALUE);
+        }
+
+        Deque<Integer> dq = new ArrayDeque<>();
+
+        dist[r][c] = 0;
+        dq.offerFirst(r * m + c);
+
+        while (!dq.isEmpty()) {
+
+            int pos = dq.pollFirst();
+            int x = pos / m;
+            int y = pos % m;
+
+            // Left - cost 0
+            if (y > 0 && mat[x][y - 1] != '#'
+                    && dist[x][y - 1] > dist[x][y]) {
+
+                dist[x][y - 1] = dist[x][y];
+                dq.offerFirst(x * m + y - 1);
+            }
+
+            // Right - cost 0
+            if (y + 1 < m && mat[x][y + 1] != '#'
+                    && dist[x][y + 1] > dist[x][y]) {
+
+                dist[x][y + 1] = dist[x][y];
+                dq.offerFirst(x * m + y + 1);
+            }
+
+            // Down - cost 0
+            if (x + 1 < n && mat[x + 1][y] != '#'
+                    && dist[x + 1][y] > dist[x][y]) {
+
+                dist[x + 1][y] = dist[x][y];
+                dq.offerFirst((x + 1) * m + y);
+            }
+
+            // Up - cost 1
+            if (x > 0 && mat[x - 1][y] != '#'
+                    && dist[x - 1][y] > dist[x][y] + 1) {
+
+                dist[x - 1][y] = dist[x][y] + 1;
+                dq.offerLast((x - 1) * m + y);
+            }
+        }
+
+        int ans = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+
+                if (mat[i][j] == '#' || dist[i][j] == Integer.MAX_VALUE) {
+                    continue;
+                }
+
+                int upMoves = dist[i][j];
+
+                // down - up = i - r
+                int downMoves = upMoves + (i - r);
+
+                if (upMoves <= u && downMoves <= d) {
+                    ans++;
+                }
+            }
+        }
+
+        return ans;
+    }
+}
