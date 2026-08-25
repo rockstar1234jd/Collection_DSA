@@ -548,3 +548,21 @@ class Solution {
         printNos(n-1);
     }
 }
+
+---
+27. Java Inheritance {Type -> Basic} GFG
+Link: https://www.geeksforgeeks.org/problems/java-inheritance/1
+Code:
+class cls1{
+    void add(int p,int q){
+        System.out.println(p+q);
+    }
+}
+class cls2 extends cls1 {
+    void mul(int p, int q) { 
+        System.out.println(p * q); 
+}
+    void task(int p, int q) {
+        System.out.println(p*p + q*q);
+    }
+}
