@@ -279,3 +279,25 @@ class Solution {
         return dp;
     }
 }
+
+---
+10. Smallest Missing Multiple of K {Type -> Easy} Leetcode -> 3718
+Link: https://leetcode.com/problems/smallest-missing-multiple-of-k
+Code:
+class Solution {
+    public int missingMultiple(int[] nums, int k) {
+        HashSet<Integer> set = new HashSet<>();
+
+        for (int x : nums) {
+            if (x % k == 0) {
+                set.add(x);
+            }
+        }
+
+        for (int x = k; ; x += k) {
+            if (!set.contains(x)) {
+                return x;
+            }
+        }
+    }
+}
