@@ -399,3 +399,37 @@ class Solution {
         return (int) dp[n];
     }
 }
+
+---
+10. Minimum Moves to Sort Permutation {Type -> Easy} 25-08-2026
+Link: https://www.geeksforgeeks.org/problems/morning-assembly3038/1
+Code:
+class Solution {
+    public int minMoves(int[] arr) {
+        int n = arr.length;
+
+        int[] pos = new int[n + 1];
+
+        // Store the position of each value
+        for (int i = 0; i < n; i++) {
+            pos[arr[i]] = i;
+        }
+
+        // Find the longest consecutive sequence
+        // whose positions are already increasing.
+        int longest = 1;
+        int current = 1;
+
+        for (int x = 1; x < n; x++) {
+            if (pos[x] < pos[x + 1]) {
+                current++;
+                longest = Math.max(longest, current);
+            } else {
+                current = 1;
+            }
+        }
+
+        // All other elements need to be moved.
+        return n - longest;
+    }
+}
