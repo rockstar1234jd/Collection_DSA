@@ -342,3 +342,79 @@ class Solution {
         return answer;
     }
 }
+
+---
+12. Lexicographically Smallest Permutation Greater Than Target {Type -> Medium} Leetcode -> 3720
+Link: https://leetcode.com/problems/lexicographically-smallest-permutation-greater-than-target
+Code:
+class Solution {
+    public String lexGreaterPermutation(String s, String target) {
+        int n = s.length();
+        int[] freq = new int[26];
+
+        for (char c : s.toCharArray()) {
+            freq[c - 'a']++;
+        }
+
+        char[] ans = new char[n];
+
+        // Match target as much as possible
+        int i = 0;
+
+        while (i < n) {
+            int x = target.charAt(i) - 'a';
+
+            if (freq[x] == 0) {
+                break;
+            }
+
+            ans[i] = target.charAt(i);
+            freq[x]--;
+            i++;
+        }
+
+        // First try to make the CURRENT position larger
+        if (i < n) {
+            int x = target.charAt(i) - 'a';
+
+            for (int c = x + 1; c < 26; c++) {
+                if (freq[c] > 0) {
+                    ans[i] = (char) ('a' + c);
+                    freq[c]--;
+
+                    fillRemaining(ans, i + 1, freq);
+                    return new String(ans);
+                }
+            }
+        }
+
+        // If current position cannot be made larger,
+        // backtrack to previous matched positions.
+        for (int pos = i - 1; pos >= 0; pos--) {
+            freq[ans[pos] - 'a']++;
+
+            int x = target.charAt(pos) - 'a';
+
+            for (int c = x + 1; c < 26; c++) {
+                if (freq[c] > 0) {
+                    ans[pos] = (char) ('a' + c);
+                    freq[c]--;
+
+                    fillRemaining(ans, pos + 1, freq);
+                    return new String(ans);
+                }
+            }
+        }
+
+        return "";
+    }
+
+    private void fillRemaining(char[] ans, int pos, int[] freq) {
+        for (int c = 0; c < 26; c++) {
+            while (freq[c] > 0) {
+                ans[pos++] = (char) ('a' + c);
+                freq[c]--;
+            }
+        }
+    }
+}
