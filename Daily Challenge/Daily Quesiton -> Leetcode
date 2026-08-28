@@ -418,3 +418,226 @@ class Solution {
         }
     }
 }
+
+---
+13. Lexicographically Smallest Palindromic Permutation Greater Than Target {Type -> Hard} Leetcode -> 3734
+Link: https://leetcode.com/problems/lexicographically-smallest-palindromic-permutation-greater-than-target
+Code:
+class Solution {
+    public String lexPalindromicPermutation(String s, String target) {
+        int n = s.length();
+
+        // Count characters in s
+        int[] freq = new int[26];
+        for (char c : s.toCharArray()) {
+            freq[c - 'a']++;
+        }
+
+        // A palindrome can have at most one character with odd frequency
+        int odd = 0;
+        int middle = -1;
+
+        for (int i = 0; i < 26; i++) {
+            if (freq[i] % 2 == 1) {
+                odd++;
+                middle = i;
+            }
+        }
+
+        if (odd > 1) {
+            return "";
+        }
+
+        // Build counts for the left half
+        int halfLen = n / 2;
+        int[] half = new int[26];
+
+        for (int i = 0; i < 26; i++) {
+            half[i] = freq[i] / 2;
+        }
+
+        String targetHalf = target.substring(0, halfLen);
+
+        /*
+         * First, check whether targetHalf itself can be formed.
+         */
+        int[] temp = half.clone();
+        boolean canEqual = true;
+
+        for (char c : targetHalf.toCharArray()) {
+            if (temp[c - 'a'] == 0) {
+                canEqual = false;
+                break;
+            }
+            temp[c - 'a']--;
+        }
+
+        // If targetHalf is possible, construct its palindrome.
+        // It may already be strictly greater than target.
+        if (canEqual) {
+            String palindrome = buildPalindrome(targetHalf, middle);
+
+            if (palindrome.compareTo(target) > 0) {
+                return palindrome;
+            }
+
+            // Otherwise we need the next lexicographical half.
+            String nextHalf = nextPermutation(targetHalf);
+
+            if (nextHalf != null && canBuild(nextHalf, half)) {
+                return buildPalindrome(nextHalf, middle);
+            }
+
+            return "";
+        }
+
+        /*
+         * targetHalf cannot be formed.
+         *
+         * Find the smallest permutation of our half-multiset
+         * that is strictly greater than targetHalf.
+         */
+        String greaterHalf = findSmallestGreater(half, targetHalf);
+
+        if (greaterHalf == null) {
+            return "";
+        }
+
+        return buildPalindrome(greaterHalf, middle);
+    }
+
+    // Construct full palindrome from left half
+    private String buildPalindrome(String left, int middle) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(left);
+
+        if (middle != -1) {
+            sb.append((char) ('a' + middle));
+        }
+
+        sb.append(new StringBuilder(left).reverse());
+
+        return sb.toString();
+    }
+
+    // Check whether half can be formed using the available counts
+    private boolean canBuild(String str, int[] counts) {
+        int[] temp = counts.clone();
+
+        for (char c : str.toCharArray()) {
+            if (temp[c - 'a'] == 0) {
+                return false;
+            }
+            temp[c - 'a']--;
+        }
+
+        return true;
+    }
+
+    /*
+     * Returns the next lexicographical permutation of str.
+     * Works even when characters are repeated.
+     */
+    private String nextPermutation(String str) {
+        char[] a = str.toCharArray();
+
+        int i = a.length - 2;
+
+        while (i >= 0 && a[i] >= a[i + 1]) {
+            i--;
+        }
+
+        if (i < 0) {
+            return null;
+        }
+
+        int j = a.length - 1;
+
+        while (a[j] <= a[i]) {
+            j--;
+        }
+
+        char temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+
+        reverse(a, i + 1, a.length - 1);
+
+        return new String(a);
+    }
+
+    private void reverse(char[] a, int l, int r) {
+        while (l < r) {
+            char temp = a[l];
+            a[l] = a[r];
+            a[r] = temp;
+            l++;
+            r--;
+        }
+    }
+
+    /*
+     * Find the smallest permutation of our multiset
+     * that is strictly greater than targetHalf.
+     */
+    private String findSmallestGreater(int[] counts, String targetHalf) {
+        int m = targetHalf.length();
+
+        // We try to keep the prefix equal to targetHalf
+        // for as long as possible.
+        for (int pos = m - 1; pos >= 0; pos--) {
+
+            // Counts available after matching targetHalf[0..pos-1]
+            int[] remaining = counts.clone();
+
+            boolean prefixPossible = true;
+
+            for (int i = 0; i < pos; i++) {
+                int c = targetHalf.charAt(i) - 'a';
+
+                if (remaining[c] == 0) {
+                    prefixPossible = false;
+                    break;
+                }
+
+                remaining[c]--;
+            }
+
+            if (!prefixPossible) {
+                continue;
+            }
+
+            int targetChar = targetHalf.charAt(pos) - 'a';
+
+            // At this position, choose the smallest available
+            // character greater than targetHalf[pos].
+            for (int c = targetChar + 1; c < 26; c++) {
+                if (remaining[c] > 0) {
+
+                    remaining[c]--;
+
+                    StringBuilder ans = new StringBuilder();
+
+                    // Equal prefix
+                    ans.append(targetHalf, 0, pos);
+
+                    // Character that makes it greater
+                    ans.append((char) ('a' + c));
+
+                    // Fill the rest in ascending order
+                    for (int x = 0; x < 26; x++) {
+                        while (remaining[x] > 0) {
+                            ans.append((char) ('a' + x));
+                            remaining[x]--;
+                        }
+                    }
+
+                    return ans.toString();
+                }
+            }
+        }
+
+        return null;
+    }
+}
