@@ -568,3 +568,42 @@ class Solution {
         return Math.min(dp0, Math.min(dp1, dp2));
     }
 }
+
+---
+14. Count Subsequences Divisible by n {Type -> Medium} 29-08-2026
+Link: https://www.geeksforgeeks.org/problems/number-of-subsequences-in-a-string-divisible-by-n5947/1
+Code:
+class Solution {
+    public int countSubsequences(String s, int n) {
+        final long MOD = 1_000_000_007L;
+
+        long[] dp = new long[n];
+
+        for (char ch : s.toCharArray()) {
+            int d = ch - '0';
+
+            // We need a separate array because every digit
+            // can either be taken or not taken.
+            long[] next = dp.clone();
+
+            // Take this digit alone
+            next[d % n]++;
+
+            // Append this digit to every existing subsequence
+            for (int r = 0; r < n; r++) {
+                if (dp[r] == 0) {
+                    continue;
+                }
+
+                int newRemainder = (r * 10 + d) % n;
+
+                next[newRemainder] =
+                    (next[newRemainder] + dp[r]) % MOD;
+            }
+
+            dp = next;
+        }
+
+        return (int) dp[0];
+    }
+}
