@@ -591,3 +591,17 @@ public class Main {
         }
     }
 }
+
+---
+29. Array to Deque {Type -> Basic} GFG
+Link: https://www.geeksforgeeks.org/problems/insertion-in-deque/1
+Code:
+class Solution {
+    public Deque<Integer> dqInsertion(List<Integer> arr) {
+       Deque<Integer> deq = new ArrayDeque<>();
+       for(int x : arr){
+           deq.addLast(x);
+       }
+       return deq;
+    }
+}
