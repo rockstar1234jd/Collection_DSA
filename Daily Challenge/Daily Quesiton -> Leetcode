@@ -641,3 +641,55 @@ class Solution {
         return null;
     }
 }
+
+--- 
+14. Make Lexicographically Smallest Array by Swapping Elements {Type -> Medium} Leetcode -> 2948
+Link: https://leetcode.com/problems/make-lexicographically-smallest-array-by-swapping-elements
+Code:
+import java.util.*;
+
+class Solution {
+    public int[] lexicographicallySmallestArray(int[] nums, int limit) {
+        int n = nums.length;
+
+        // Store indices
+        Integer[] indices = new Integer[n];
+
+        for (int i = 0; i < n; i++) {
+            indices[i] = i;
+        }
+
+        // Sort indices according to nums[index]
+        Arrays.sort(indices, (a, b) -> Integer.compare(nums[a], nums[b]));
+
+        int[] ans = new int[n];
+
+        int i = 0;
+
+        while (i < n) {
+
+            // Find the current group
+            int j = i + 1;
+
+            while (j < n &&
+                   nums[indices[j]] - nums[indices[j - 1]] <= limit) {
+                j++;
+            }
+
+            // Get indices belonging to this group
+            Integer[] groupIndices = Arrays.copyOfRange(indices, i, j);
+
+            // Sort original indices
+            Arrays.sort(groupIndices);
+
+            // Values are already sorted because indices[] is sorted by value
+            for (int k = 0; k < groupIndices.length; k++) {
+                ans[groupIndices[k]] = nums[indices[i + k]];
+            }
+
+            i = j;
+        }
+
+        return ans;
+    }
+}
