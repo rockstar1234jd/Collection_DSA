@@ -566,3 +566,28 @@ class cls2 extends cls1 {
         System.out.println(p*p + q*q);
     }
 }
+
+---
+28. Non-decresing Finder {Type -> Easy} CodeChef-> Practice Array Question
+Link: https://www.codechef.com/practice/course/arrays-new/ARRAYSP01/problems/RATINGINPRAC
+Code:
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int prev = sc.nextInt();
+            boolean sorted = true;
+            for (int i = 1; i < n; i++) {
+                int current = sc.nextInt();
+                if (current < prev) {
+                    sorted = false;
+                }
+                prev = current;
+            }
+            System.out.println(sorted ? "Yes" : "No");      
+        }
+    }
+}
