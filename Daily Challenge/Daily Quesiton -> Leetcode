@@ -693,3 +693,42 @@ class Solution {
         return ans;
     }
 }
+
+---
+15. Removing Minimum and Maximum From Array {Type -> Medium} Leetcode -> 2091
+Link: https://leetcode.com/problems/removing-minimum-and-maximum-from-array/
+Code:
+class Solution {
+    public int minimumDeletions(int[] nums) {
+        int n = nums.length;
+
+        int minIndex = 0;
+        int maxIndex = 0;
+
+        // Find positions of minimum and maximum
+        for (int i = 0; i < n; i++) {
+            if (nums[i] < nums[minIndex]) {
+                minIndex = i;
+            }
+
+            if (nums[i] > nums[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+
+        int left = Math.min(minIndex, maxIndex);
+        int right = Math.max(minIndex, maxIndex);
+
+        // 1. Remove both from left
+        int removeFromLeft = right + 1;
+
+        // 2. Remove both from right
+        int removeFromRight = n - left;
+
+        // 3. Remove one from left and one from right
+        int removeBothSides = (left + 1) + (n - right);
+
+        return Math.min(removeFromLeft,
+               Math.min(removeFromRight, removeBothSides));
+    }
+}
