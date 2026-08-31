@@ -732,3 +732,57 @@ class Solution {
                Math.min(removeFromRight, removeBothSides));
     }
 }
+
+---
+16. Find the Minimum and Maximum Number of Nodes Between Critical Points {Type -> Medium} Leetcode -> 2058
+Link: https://leetcode.com/problems/find-the-minimum-and-maximum-number-of-nodes-between-critical-points
+Code:
+int[] ans = {-1, -1};
+
+        if (head == null || head.next == null || head.next.next == null) {
+            return ans;
+        }
+
+        ListNode prev = head;
+        ListNode curr = head.next;
+
+        int pos = 1;
+        int first = -1;
+        int last = -1;
+        int minDist = Integer.MAX_VALUE;
+
+        while (curr.next != null) {
+
+            int prevVal = prev.val;
+            int currVal = curr.val;
+            int nextVal = curr.next.val;
+
+            // Check if current node is a critical point
+            if ((currVal > prevVal && currVal > nextVal) ||
+                (currVal < prevVal && currVal < nextVal)) {
+
+                if (first == -1) {
+                    // First critical point
+                    first = pos;
+                } else {
+                    // Distance from previous critical point
+                    minDist = Math.min(minDist, pos - last);
+                }
+
+                last = pos;
+            }
+
+            prev = curr;
+            curr = curr.next;
+            pos++;
+        }
+
+        // Need at least two critical points
+        if (first == -1 || first == last) {
+            return ans;
+        }
+
+        ans[0] = minDist;
+        ans[1] = last - first;
+
+        return ans;
