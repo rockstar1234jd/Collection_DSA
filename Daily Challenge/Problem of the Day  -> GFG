@@ -665,3 +665,42 @@ class Solution {
         return ans;
     }
 }
+
+---
+16. Minimum Cost for n Characters {Type -> Medium} 31-08-2026
+Link: https://www.geeksforgeeks.org/problems/minimum-time1238/1
+Code:
+class Solution {
+    public int minCost(int n, int i, int d, int c) {
+        return solve(n, i, d, c);
+    }
+
+    private int solve(int n, int i, int d, int c) {
+        // Direct insertion is always an option
+        int ans = n * i;
+
+        if (n == 1) {
+            return ans;
+        }
+
+        int half = n / 2;
+
+        if (n % 2 == 0) {
+            // Build half, copy -> n
+            ans = Math.min(ans, solve(half, i, d, c) + c);
+        } else {
+            // Build floor(n/2), copy -> n-1, insert one
+            ans = Math.min(
+                ans,
+                solve(half, i, d, c) + c + i
+            );
+
+            // Build ceil(n/2), copy -> n+1, delete one
+            ans = Math.min(
+                ans,
+                solve(half + 1, i, d, c) + c + d
+            );
+        }
+        return ans;
+    }
+}
