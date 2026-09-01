@@ -786,3 +786,131 @@ int[] ans = {-1, -1};
         ans[1] = last - first;
 
         return ans;
+
+
+---
+17. Minimum Moves to Clean the Classroom {Type -> Medium} Leetcode -> 3568
+Link: https://leetcode.com/problems/minimum-moves-to-clean-the-classroom
+Code:
+class Solution {
+    public int minMoves(String[] classroom, int energy) {
+        int m = classroom.length;
+        int n = classroom[0].length();
+
+        int[][] litterId = new int[m][n];
+        for (int[] row : litterId) {
+            java.util.Arrays.fill(row, -1);
+        }
+
+        int sr = 0, sc = 0;
+        int litterCount = 0;
+
+        // Find S and assign an ID to every L
+        for (int r = 0; r < m; r++) {
+            for (int c = 0; c < n; c++) {
+                char ch = classroom[r].charAt(c);
+
+                if (ch == 'S') {
+                    sr = r;
+                    sc = c;
+                } else if (ch == 'L') {
+                    litterId[r][c] = litterCount++;
+                }
+            }
+        }
+
+        // No litter
+        if (litterCount == 0) {
+            return 0;
+        }
+
+        /*
+         * State:
+         * row, col, remaining energy, collected litter mask
+         *
+         * mask bit = 1 means that litter is still NOT collected.
+         */
+        int fullMask = (1 << litterCount) - 1;
+
+        boolean[][][][] visited =
+            new boolean[m][n][energy + 1][1 << litterCount];
+
+        java.util.Queue<int[]> queue = new java.util.ArrayDeque<>();
+
+        queue.offer(new int[]{sr, sc, energy, fullMask});
+        visited[sr][sc][energy][fullMask] = true;
+
+        int[] dr = {-1, 1, 0, 0};
+        int[] dc = {0, 0, -1, 1};
+
+        int moves = 0;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+            while (size-- > 0) {
+                int[] cur = queue.poll();
+
+                int r = cur[0];
+                int c = cur[1];
+                int e = cur[2];
+                int mask = cur[3];
+
+                // All litter collected
+                if (mask == 0) {
+                    return moves;
+                }
+
+                // Cannot move without energy
+                if (e == 0) {
+                    continue;
+                }
+
+                for (int d = 0; d < 4; d++) {
+                    int nr = r + dr[d];
+                    int nc = c + dc[d];
+
+                    // Outside grid
+                    if (nr < 0 || nr >= m || nc < 0 || nc >= n) {
+                        continue;
+                    }
+
+                    // Obstacle
+                    if (classroom[nr].charAt(nc) == 'X') {
+                        continue;
+                    }
+
+                    char ch = classroom[nr].charAt(nc);
+
+                    // Normally lose 1 energy.
+                    int newEnergy = e - 1;
+
+                    // Reset cell restores energy.
+                    if (ch == 'R') {
+                        newEnergy = energy;
+                    }
+
+                    int newMask = mask;
+
+                    // Collect litter
+                    if (ch == 'L') {
+                        int id = litterId[nr][nc];
+                        newMask &= ~(1 << id);
+                    }
+
+                    if (!visited[nr][nc][newEnergy][newMask]) {
+                        visited[nr][nc][newEnergy][newMask] = true;
+
+                        queue.offer(new int[]{
+                            nr, nc, newEnergy, newMask
+                        });
+                    }
+                }
+            }
+
+            moves++;
+        }
+
+        return -1;
+    }
+}
