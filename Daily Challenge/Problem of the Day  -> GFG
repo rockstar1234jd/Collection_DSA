@@ -704,3 +704,53 @@ class Solution {
         return ans;
     }
 }
+
+---
+17. Count Palindromic Strings with Constraints {Type -> Medium} 01-09-2026
+Link: https://www.geeksforgeeks.org/problems/number-of-palindromic-strings2706/1
+Code:
+class Solution {
+    public int palindromicStrings(int n, int k) {
+        // code here
+       final long MOD = 1000000007L;
+
+       long ans = 0;
+
+       // We build permutations incrementally.
+       long perm = 1;
+
+       for (int len = 1; len <= n; len++) {
+           int half = len / 2;
+
+           if (half > 0) {
+               // P(k, half) for even length
+               // P(k-1, half) for odd length
+               // We calculate separately below.
+           }
+
+           long ways;
+
+           if (len % 2 == 0) {
+               // len = 2 * half
+               // P(k, half)
+               ways = 1;
+               for (int i = 0; i < half; i++) {
+                   ways = ways * (k - i) % MOD;
+               }
+           } else {
+               // len = 2 * half + 1
+               // Choose middle character (k ways)
+               // Then P(k-1, half)
+               ways = k;
+
+               for (int i = 0; i < half; i++) {
+                   ways = ways * (k - 1 - i) % MOD;
+               }
+           }
+
+           ans = (ans + ways) % MOD;
+       }
+
+       return (int) ans;
+    }
+}
