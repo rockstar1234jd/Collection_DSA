@@ -754,3 +754,38 @@ class Solution {
        return (int) ans;
     }
 }
+
+---
+18. Unoccupied Computers {Type -> Easy} 02-09-2026
+Link: https://www.geeksforgeeks.org/problems/unoccupied-computers-1646661078/1
+Code:
+class Solution {
+    public int solve(int n, String s) {
+        boolean[] seen = new boolean[26];
+        boolean[] rejected = new boolean[26];
+
+        int occupied = 0;
+        int ans = 0;
+
+        for (char c : s.toCharArray()) {
+            int i = c - 'A';
+
+            if (!seen[i]) {
+                seen[i] = true;
+
+                if (occupied < n) {
+                    occupied++;
+                } else {
+                    rejected[i] = true;
+                    ans++;
+                }
+            } else {
+                if (!rejected[i]) {
+                    occupied--;
+                }
+            }
+        }
+
+        return ans;
+    }
+}
