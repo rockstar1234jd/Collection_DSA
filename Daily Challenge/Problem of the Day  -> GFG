@@ -789,3 +789,45 @@ class Solution {
         return ans;
     }
 }
+
+---
+19. Max Adjacent Diffs Sum with 1 Replacements {Type -> Medium} 03-09-2026
+Link: https://www.geeksforgeeks.org/problems/modify-array-to-maximize-sum-of-adjacent-differences1729/1
+Code:
+class Solution {
+    public int maxDiffSum(int[] arr) {
+        int n = arr.length;
+
+        if (n <= 1) {
+            return 0;
+        }
+
+        // dp0 = maximum sum when current element is unchanged
+        // dp1 = maximum sum when current element is replaced by 1
+        int dp0 = 0;
+        int dp1 = 0;
+
+        int prev = arr[0];
+
+        for (int i = 1; i < n; i++) {
+            int curr = arr[i];
+
+            int newDp0 = Math.max(
+                dp0 + Math.abs(prev - curr),
+                dp1 + Math.abs(1 - curr)
+            );
+
+            int newDp1 = Math.max(
+                dp0 + Math.abs(prev - 1),
+                dp1
+            );
+
+            dp0 = newDp0;
+            dp1 = newDp1;
+
+            prev = curr;
+        }
+
+        return Math.max(dp0, dp1);
+    }
+}
