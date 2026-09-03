@@ -938,3 +938,33 @@ Code:
             return true;
         }
         return true;
+
+---
+19. Construct Uniform Parity Array II {Type -> Medium} Leetcode -> 3876
+Link: https://leetcode.com/problems/construct-uniform-parity-array-ii
+Code:
+class Solution {
+    public boolean uniformArray(int[] nums1) {
+        int min = Integer.MAX_VALUE;
+
+        for (int x : nums1) {
+            min = Math.min(min, x);
+        }
+
+        // Minimum is odd:
+        // We can make every element odd.
+        if (min % 2 == 1) {
+            return true;
+        }
+
+        // Minimum is even:
+        // Then every element must already be even.
+        for (int x : nums1) {
+            if (x % 2 == 1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
