@@ -831,3 +831,27 @@ class Solution {
         return Math.max(dp0, dp1);
     }
 }
+
+---
+20. Bird and Max Fruit Gathering {Type -> Easy} 04-09-2026
+Link: https://www.geeksforgeeks.org/problems/bird-and-maximum-fruit-gathering--170645/1
+Code:
+class Solution {
+    public int maxFruits(ArrayList<Integer> arr, int m) {
+        // code here
+        int n = arr.size();
+        long windowSum = 0;
+        // First window
+        for (int i = 0; i < m; i++) {
+            windowSum += arr.get(i);
+        }
+        long maxSum = windowSum;
+        // Slide the window around the circle
+        for (int i = 1; i < n; i++) {
+            windowSum -= arr.get(i - 1);
+            windowSum += arr.get((i + m - 1) % n);
+            maxSum = Math.max(maxSum, windowSum);
+        }
+        return (int) maxSum;
+    }
+}
