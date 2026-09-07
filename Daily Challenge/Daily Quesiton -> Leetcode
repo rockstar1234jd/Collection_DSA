@@ -1034,3 +1034,25 @@ class Solution {
         return (int) dp[n];
     }
 }
+
+---
+23. Distinct Subsequences II {Type -> Hard} Leetcode -> 940
+Link: https://leetcode.com/problems/distinct-subsequences-ii/
+Code:
+class Solution {
+    public int distinctSubseqII(String s) {
+        final long MOD = 1_000_000_007L;
+        // dp = number of distinct subsequences including empty subsequence
+        long dp = 1;
+        // prev[i] = dp value before the previous occurrence of character i
+        long[] prev = new long[26];
+        for (char c : s.toCharArray()) {
+            int idx = c - 'a';
+            long newDp = (2 * dp - prev[idx] + MOD) % MOD;
+            prev[idx] = dp;
+            dp = newDp;
+        }
+        // Remove the empty subsequence
+        return (int) ((dp - 1 + MOD) % MOD);
+    }
+}
