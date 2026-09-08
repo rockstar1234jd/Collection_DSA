@@ -1056,3 +1056,13 @@ class Solution {
         return (int) ((dp - 1 + MOD) % MOD);
     }
 }
+
+---
+24. Count Commas in Range {Type -> Easy} Leetcode -> 3870
+Link: https://leetcode.com/problems/count-commas-in-range
+Code:
+class Solution {
+    public int countCommas(int n) {
+        return Math.max(0, n - 999);
+    }
+}
