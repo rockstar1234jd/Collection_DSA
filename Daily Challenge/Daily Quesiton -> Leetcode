@@ -1066,3 +1066,24 @@ class Solution {
         return Math.max(0, n - 999);
     }
 }
+
+---
+25. Count Commas in Range II {Type -> Medium} Leetcode -> 3871
+Link: https://leetcode.com/problems/count-commas-in-range-ii
+Code:
+class Solution {
+    public long countCommas(long n) {
+        long ans = 0;
+        // Numbers >= 1000 need at least 1 comma.
+        // Numbers >= 1,000,000 need 2 commas, etc.
+        for (long p = 1000; p <= n; ) {
+            ans += n - p + 1;
+            // Avoid overflow for larger values.
+            if (p > n / 1000) {
+                break;
+            }
+            p *= 1000;
+        }
+        return ans;
+    }
+}
