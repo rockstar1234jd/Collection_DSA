@@ -994,3 +994,46 @@ class Solution {
         return ans;
     }
 }
+
+---
+25. Max Digit Sum Number in 1 to n {Type -> Easy} 09-09-2026
+Link: https://www.geeksforgeeks.org/problems/biggest-integer-having-maximum-digit-sum1704/1
+Code:
+class Solution {
+    public int findMax(int n) {
+  String s = String.valueOf(n);
+         int best = n;
+         int bestSum = digitSum(n);
+         for (int i = 0; i < s.length(); i++) {
+             // Current digit
+             int digit = s.charAt(i) - '0';
+             // Cannot decrease 0
+             if (digit == 0) {
+                 continue;
+             }
+             StringBuilder sb = new StringBuilder(s);
+             // Decrease current digit by 1
+             sb.setCharAt(i, (char) ('0' + digit - 1));
+             // Make everything to the right 9
+             for (int j = i + 1; j < s.length(); j++) {
+                 sb.setCharAt(j, '9');
+             }
+             int candidate = Integer.parseInt(sb.toString());
+             int sum = digitSum(candidate);
+             if (sum > bestSum || (sum == bestSum && candidate > best)) {
+                 bestSum = sum;
+                 best = candidate;
+             }
+         }
+         return best;
+     }
+     private int digitSum(int n) {
+         int sum = 0;
+
+         while (n > 0) {
+             sum += n % 10;
+             n /= 10;
+         }
+         return sum;
+    }
+}
