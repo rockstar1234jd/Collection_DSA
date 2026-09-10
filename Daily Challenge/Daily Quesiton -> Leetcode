@@ -1087,3 +1087,27 @@ class Solution {
         return ans;
     }
 }
+
+---
+26. Count Nodes Equal to Average of Subtree {Type -> Medium} Leetcode -> 2265
+Link: https://leetcode.com/problems/count-nodes-equal-to-average-of-subtree
+Code:
+class Solution {
+   public int averageOfSubtree(TreeNode root) {
+        return dfs(root)[2];
+    }
+    private int[] dfs(TreeNode node) {
+        if (node == null) {
+            return new int[]{0, 0, 0};
+        }
+        int[] left = dfs(node.left);
+        int[] right = dfs(node.right);
+        int sum = node.val + left[0] + right[0];
+        int count = 1 + left[1] + right[1];
+        int ans = left[2] + right[2];
+        if (node.val == sum / count) {
+            ans++;
+        }
+        return new int[]{sum, count, ans};
+    }
+}
