@@ -1037,3 +1037,29 @@ class Solution {
          return sum;
     }
 }
+
+---
+25. Pairs with Given GCD and LCM {Type -> Easy} 10-09-2026
+Link: https://www.geeksforgeeks.org/problems/possible-pairs1550/1 
+Code:
+class Solution {
+    public int pairCount(int x, int y) {
+        if (y % x != 0) {
+                    return 0;
+                }
+                int n = y / x;
+                int primeFactors = 0;
+                for (int i = 2; i * i <= n; i++) {
+                    if (n % i == 0) {
+                        primeFactors++;
+                        while (n % i == 0) {
+                            n /= i;
+                        }
+                    }
+                }
+                if (n > 1) {
+                    primeFactors++;
+                }
+                return 1 << primeFactors;
+    }
+}
