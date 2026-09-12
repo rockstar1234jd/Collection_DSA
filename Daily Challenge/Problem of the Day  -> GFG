@@ -1039,7 +1039,7 @@ class Solution {
 }
 
 ---
-25. Pairs with Given GCD and LCM {Type -> Easy} 10-09-2026
+26. Pairs with Given GCD and LCM {Type -> Easy} 10-09-2026
 Link: https://www.geeksforgeeks.org/problems/possible-pairs1550/1 
 Code:
 class Solution {
@@ -1065,7 +1065,7 @@ class Solution {
 }
 
 ---
-26. Values with Equal Array Remainders {Type -> Easy} 11-09-2026
+27. Values with Equal Array Remainders {Type -> Easy} 11-09-2026
 Link: https://www.geeksforgeeks.org/problems/k-modulus-array-element0255/1 
 Code:
 class Solution {
@@ -1106,5 +1106,60 @@ class Solution {
                    b = temp;
                }
                return a;
+    }
+}
+
+---
+28. Max Product Subsequence of Size K {Type -> Hard} 12-09-2026
+Link: https://www.geeksforgeeks.org/problems/maximum-product4633/1
+Code:
+class Solution {
+    public int maxProduct(int[] arr, int k) {
+        int n = arr.length;
+
+        // dpMax[i][j] = maximum product of subsequence of size j using first i elements
+        // dpMin[i][j] = minimum product of subsequence of size j using first i elements
+        int[][] dpMax = new int[n + 1][k + 1];
+        int[][] dpMin = new int[n + 1][k + 1];
+
+        // Initialize with sentinel values
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= k; j++) {
+                dpMax[i][j] = Integer.MIN_VALUE;
+                dpMin[i][j] = Integer.MAX_VALUE;
+            }
+            // A subsequence of size 0 has a product of 1
+            dpMax[i][0] = 1;
+            dpMin[i][0] = 1;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= Math.min(i, k); j++) {
+                // Option 1: Skip the current element (arr[i-1])
+                int skipMax = dpMax[i - 1][j];
+                int skipMin = dpMin[i - 1][j];
+
+                // Option 2: Take the current element
+                int takeMax = Integer.MIN_VALUE;
+                int takeMin = Integer.MAX_VALUE;
+
+                // We can only take the current element if we had a valid subsequence of size j-1 before
+                if (dpMax[i - 1][j - 1] != Integer.MIN_VALUE) {
+                    int val = arr[i - 1];
+                    // Since val can be negative, the previous minimum could become the new maximum
+                    int prod1 = dpMax[i - 1][j - 1] * val;
+                    int prod2 = dpMin[i - 1][j - 1] * val;
+
+                    takeMax = Math.max(prod1, prod2);
+                    takeMin = Math.min(prod1, prod2);
+                }
+
+                // Update DP tables
+                dpMax[i][j] = Math.max(skipMax, takeMax);
+                dpMin[i][j] = Math.min(skipMin, takeMin);
+            }
+        }
+
+        return dpMax[n][k];
     }
 }
