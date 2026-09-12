@@ -1141,3 +1141,165 @@ class Solution {
         return count;
     }
 }
+
+---
+28. Maximum Score of Non-overlapping Intervals {Type -> Hard} leetcode -> 3414
+Link: https://leetcode.com/problems/maximum-score-of-non-overlapping-intervals
+Code:
+class Solution {
+    public int[] maximumWeight(List<List<Integer>> intervals) {
+         int n = intervals.size();
+        // arr[i] = {l, r, w, originalIndex}
+        int[][] arr = new int[n][4];
+        for (int i = 0; i < n; i++) {
+            List<Integer> interval = intervals.get(i);
+            arr[i][0] = interval.get(0); // l
+            arr[i][1] = interval.get(1); // r
+            arr[i][2] = interval.get(2); // w
+            arr[i][3] = i;               // original index
+        }
+        // Sort by end time (r), then start time (l), then original index
+        Arrays.sort(arr, (a, b) -> {
+            if (a[1] != b[1]) return Integer.compare(a[1], b[1]);
+            if (a[0] != b[0]) return Integer.compare(a[0], b[0]);
+            return Integer.compare(a[3], b[3]);
+        });
+
+        int[] rVals = new int[n];
+        for (int i = 0; i < n; i++) {
+            rVals[i] = arr[i][1];
+        }
+
+        // prev[i] = largest index j < i such that intervals[j].r < intervals[i].l
+        int[] prev = new int[n];
+        for (int i = 0; i < n; i++) {
+            int l = arr[i][0];
+            int idx = lowerBound(rVals, l); // first index with r >= l
+            prev[i] = idx - 1;              // last index with r < l
+        }
+
+        // DP arrays: dpScore[i][k] = max score using first i intervals (0..i-1) choosing k intervals
+        // dpList[i][k] = lexicographically smallest sorted index list achieving that score
+        long[][] dpScore = new long[n + 1][5];
+        int[][][] dpList = new int[n + 1][5][];
+
+        for (int i = 0; i <= n; i++) {
+            for (int k = 0; k <= 4; k++) {
+                dpScore[i][k] = Long.MIN_VALUE;
+                dpList[i][k] = null;
+            }
+            dpScore[i][0] = 0;
+            dpList[i][0] = new int[0];
+        }
+
+        for (int i = 1; i <= n; i++) {
+            int[] interval = arr[i - 1];
+            int w = interval[2];
+            int idx = interval[3];
+
+            for (int k = 1; k <= 4; k++) {
+                // Option 1: skip current interval
+                long skipScore = dpScore[i - 1][k];
+                int[] skipList = dpList[i - 1][k];
+
+                // Option 2: take current interval
+                long takeScore = Long.MIN_VALUE;
+                int[] takeList = null;
+
+                if (k == 1) {
+                    takeScore = w;
+                    takeList = new int[]{idx};
+                } else {
+                    int j = prev[i - 1];
+                    if (j >= 0) {
+                        long prevScore = dpScore[j + 1][k - 1];
+                        if (prevScore != Long.MIN_VALUE) {
+                            takeScore = w + prevScore;
+                            int[] prevList = dpList[j + 1][k - 1];
+                            takeList = insertSorted(prevList, idx);
+                        }
+                    }
+                }
+
+                // Choose the better option
+                if (takeScore > skipScore) {
+                    dpScore[i][k] = takeScore;
+                    dpList[i][k] = takeList;
+                } else if (takeScore == skipScore) {
+                    if (takeScore != Long.MIN_VALUE) {
+                        if (compareLists(takeList, skipList) < 0) {
+                            dpScore[i][k] = takeScore;
+                            dpList[i][k] = takeList;
+                        } else {
+                            dpScore[i][k] = skipScore;
+                            dpList[i][k] = skipList;
+                        }
+                    } else {
+                        dpScore[i][k] = skipScore;
+                        dpList[i][k] = skipList;
+                    }
+                } else {
+                    dpScore[i][k] = skipScore;
+                    dpList[i][k] = skipList;
+                }
+            }
+        }
+
+        // Find the best among k = 0..4
+        long bestScore = Long.MIN_VALUE;
+        int[] bestList = null;
+        for (int k = 0; k <= 4; k++) {
+            long score = dpScore[n][k];
+            if (score > bestScore) {
+                bestScore = score;
+                bestList = dpList[n][k];
+            } else if (score == bestScore) {
+                if (bestList == null || compareLists(dpList[n][k], bestList) < 0) {
+                    bestList = dpList[n][k];
+                }
+            }
+        }
+        return bestList;
+    }
+
+    // Binary search for the first index with arr[mid] >= key
+    private int lowerBound(int[] arr, int key) {
+        int lo = 0, hi = arr.length;
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (arr[mid] < key) {
+                lo = mid + 1;
+            } else {
+                hi = mid;
+            }
+        }
+        return lo;
+    }
+
+    // Insert val into a sorted array, keeping it sorted
+    private int[] insertSorted(int[] list, int val) {
+        int n = list.length;
+        int[] res = new int[n + 1];
+        int i = 0, j = 0;
+        while (i < n && list[i] < val) {
+            res[j++] = list[i++];
+        }
+        res[j++] = val;
+        while (i < n) {
+            res[j++] = list[i++];
+        }
+        return res;
+    }
+
+    // Lexicographic comparison of two integer arrays
+    private int compareLists(int[] a, int[] b) {
+        if (a == null && b == null) return 0;
+        if (a == null) return 1;
+        if (b == null) return -1;
+        int minLen = Math.min(a.length, b.length);
+        for (int i = 0; i < minLen; i++) {
+            if (a[i] != b[i]) return Integer.compare(a[i], b[i]);
+        }
+        return Integer.compare(a.length, b.length);
+    }
+}
