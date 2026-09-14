@@ -1218,3 +1218,56 @@ class Solution {
                 return dist;
     }
 }
+
+---
+30. Shortest Safe Route in Grid {Type -> Medium} 14-09-2026
+Link: https://www.geeksforgeeks.org/problems/find-shortest-safe-route-in-a-matrix/1
+Code:
+class Solution {
+    int shortestPath(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+        boolean[][] unsafe = new boolean[n][m];
+        int[] dx = {-1, 1, 0, 0};
+        int[] dy = {0, 0, -1, 1};
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (mat[i][j] == 0) {
+                    unsafe[i][j] = true;
+                    for (int d = 0; d < 4; d++) {
+                        int ni = i + dx[d];
+                        int nj = j + dy[d];
+                        if (ni >= 0 && ni < n && nj >= 0 && nj < m) {
+                            unsafe[ni][nj] = true;
+                        }
+                    }
+                }
+            }
+        }
+        Queue<int[]> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[n][m];
+        for (int i = 0; i < n; i++) {
+            if (!unsafe[i][0]) {
+                queue.offer(new int[]{i, 0, 1}); // start with 1 (counting cells)
+                visited[i][0] = true;
+            }
+        }
+        while (!queue.isEmpty()) {
+            int[] curr = queue.poll();
+            int x = curr[0], y = curr[1], steps = curr[2];
+            if (y == m - 1) {
+                return steps;
+            }
+            for (int d = 0; d < 4; d++) {
+                int nx = x + dx[d];
+                int ny = y + dy[d];
+                if (nx >= 0 && nx < n && ny >= 0 && ny < m 
+                    && !unsafe[nx][ny] && !visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    queue.offer(new int[]{nx, ny, steps + 1});
+                }
+            }
+        }
+        return -1;
+    }
+}
