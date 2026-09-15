@@ -1271,3 +1271,40 @@ class Solution {
         return -1;
     }
 }
+
+---
+31. Visit Leaves with Budget {Type -> Easy} 15-09-2026
+Link: https://www.geeksforgeeks.org/problems/leaf-under-budget/1
+Code:
+import java.util.*;
+class Solution {
+    public int getCount(Node root, int k) {
+        if (root == null) return 0;
+        // Collect the level (cost) of every leaf node
+        List<Integer> costs = new ArrayList<>();
+        collectLeafCosts(root, 1, costs);
+        // Greedily pick the cheapest leaves first
+        Collections.sort(costs);   
+        int count = 0;
+        int total = 0;
+        for (int cost : costs) {
+            if (total + cost <= k) {
+                total += cost;
+                count++;
+            } else {
+                break; // costs are sorted, so no later leaf can fit
+            }
+        }
+        return count;
+    }
+    private void collectLeafCosts(Node node, int level, List<Integer> costs) {
+        if (node == null) return;
+        // Leaf node: no left and no right child
+        if (node.left == null && node.right == null) {
+            costs.add(level);
+            return;
+        }       
+        collectLeafCosts(node.left, level + 1, costs);
+        collectLeafCosts(node.right, level + 1, costs);
+    }
+}
