@@ -1308,3 +1308,38 @@ class Solution {
         collectLeafCosts(node.right, level + 1, costs);
     }
 }
+
+---
+31. Dominant Pairs {Type -> Easy} 16-09-2026
+Link: https://www.geeksforgeeks.org/problems/dominant-pairs/1
+Code:
+class Solution {
+    public int dominantPairs(int[] arr) {
+        int n = arr.length;
+        int mid = n / 2;
+
+        int[] left = new int[mid];
+        int[] right = new int[mid];
+
+        for (int i = 0; i < mid; i++) {
+            left[i] = arr[i];
+            right[i] = arr[mid + i];
+        }
+
+        Arrays.sort(left);
+        Arrays.sort(right);
+
+        int j = 0;
+        int ans = 0;
+
+        for (int i = 0; i < mid; i++) {
+            while (j < mid && (long) left[i] >= 5L * right[j]) {
+                j++;
+            }
+
+            ans += j;
+        }
+
+        return ans;
+    }
+}
