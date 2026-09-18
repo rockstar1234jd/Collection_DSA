@@ -1396,3 +1396,41 @@ class Solution {
                 return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst];
     }
 }
+
+---
+34. Minimum Absolute Difference In BST {Type -> Medium} 18-09-2026
+Link: https://www.geeksforgeeks.org/problems/minimum-absolute-difference-in-bst-1665139652/1
+Code:
+class Solution {
+    public int absDiff(Node root) {
+        int minDiff = Integer.MAX_VALUE;
+        Integer prev = null;
+        Node curr = root;
+        while (curr != null) {
+            if (curr.left == null) {
+                if (prev != null) {
+                    minDiff = Math.min(minDiff, curr.data - prev);
+                }
+                prev = curr.data;
+                curr = curr.right;
+            } else {
+                Node pre = curr.left;
+                while (pre.right != null && pre.right != curr) {
+                    pre = pre.right;
+                }
+                if (pre.right == null) {
+                    pre.right = curr;
+                    curr = curr.left;
+                } else {
+                    pre.right = null;
+                    if (prev != null) {
+                        minDiff = Math.min(minDiff, curr.data - prev);
+                    }
+                    prev = curr.data;
+                    curr = curr.right;
+                }
+            }
+        }
+        return minDiff;
+    }
+}
