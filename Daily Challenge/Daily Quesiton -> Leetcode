@@ -1483,3 +1483,85 @@ class Solution {
         return ans == INF ? -1 : ans;
     }
 }
+
+---
+34. Maximum Number of Non-Overlapping Substrings {Type -> Hard} Leetcode -> 1520
+Link: https://leetcode.com/problems/maximum-number-of-non-overlapping-substrings
+Code:
+class Solution {
+    public List<String> maxNumOfSubstrings(String s) {
+        int n = s.length();
+        int[] first = new int[26];
+        int[] last = new int[26];
+        Arrays.fill(first, -1);
+        Arrays.fill(last, -1);
+        for (int i = 0; i < n; i++) {
+            int c = s.charAt(i) - 'a';
+            if (first[c] == -1) first[c] = i;
+            last[c] = i;
+        }
+        List<int[]> intervals = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            int c = s.charAt(i) - 'a';
+            if (i != first[c]) continue;
+            int start = i;
+            int end = last[c];
+            boolean valid = true;
+            for (int j = start; j <= end; j++) {
+                int cc = s.charAt(j) - 'a';
+                if (first[cc] < start) {
+                    valid = false;
+                    break;
+                }
+                end = Math.max(end, last[cc]);
+            }
+            if (valid) {
+                intervals.add(new int[]{start, end});
+            }
+        }
+        // Sort by end position.
+        intervals.sort((a, b) -> a[1] == b[1] ? a[0] - b[0] : a[1] - b[1]);
+        int m = intervals.size();
+        // DP: maximize count, then minimize total length.
+        int[] cnt = new int[m + 1];
+        int[] len = new int[m + 1];
+        boolean[] take = new boolean[m + 1];
+        int[] prev = new int[m + 1];
+        for (int i = 1; i <= m; i++) {
+            int[] cur = intervals.get(i - 1);
+            int start = cur[0];
+            int end = cur[1];
+            // Find previous non-overlapping interval.
+            int p = i - 1;
+            while (p > 0 && intervals.get(p - 1)[1] >= start) {
+                p--;
+            }
+            int skipCnt = cnt[i - 1];
+            int skipLen = len[i - 1];
+            int takeCnt = cnt[p] + 1;
+            int takeLen = len[p] + (end - start + 1);
+            if (takeCnt > skipCnt || (takeCnt == skipCnt && takeLen < skipLen)) {
+                cnt[i] = takeCnt;
+                len[i] = takeLen;
+                take[i] = true;
+                prev[i] = p;
+            } else {
+                cnt[i] = skipCnt;
+                len[i] = skipLen;
+            }
+        }
+        List<String> ans = new ArrayList<>();
+        int i = m;
+        while (i > 0) {
+            if (take[i]) {
+                int[] cur = intervals.get(i - 1);
+                ans.add(s.substring(cur[0], cur[1] + 1));
+                i = prev[i];
+            } else {
+                i--;
+            }
+        }
+        Collections.reverse(ans);
+        return ans;
+    }
+}
