@@ -1579,3 +1579,19 @@ class Solution {
         return dx * dx + dy * dy <= radius * radius;
     }
 }
+
+---
+36. Reverse Degree of a String {Type -> Easy} Leetcode -> 3498
+Link: https://leetcode.com/problems/reverse-degree-of-a-string
+Code:
+class Solution {
+    public int reverseDegree(String s) {
+        int sum = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int reverseValue = 'z' - s.charAt(i) + 1;
+            int position = i + 1;
+            sum += reverseValue * position;
+        }
+        return sum;
+    }
+}
