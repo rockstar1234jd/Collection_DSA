@@ -1595,3 +1595,30 @@ class Solution {
         return sum;
     }
 }
+
+---
+37. Find X Value of Array I {Type -> Meidum} Leetcode -> 3524
+Link: https://leetcode.com/problems/find-x-value-of-array-i/
+Code:
+class Solution {
+    public long[] resultArray(int[] nums, int k) {
+        long[] result = new long[k];
+        long[] dp = new long[k];
+        for (int num : nums) {
+            long[] next = new long[k];
+            int val = num % k;
+            next[val]++;
+            for (int r = 0; r < k; r++) {
+                if (dp[r] > 0) {
+                    int newRemainder = (r * val) % k;
+                    next[newRemainder] += dp[r];
+                }
+            }
+            for (int r = 0; r < k; r++) {
+                result[r] += next[r];
+            }
+            dp = next;
+        }
+        return result;
+    }
+}
