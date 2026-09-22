@@ -1551,3 +1551,79 @@ class Solution {
         return q1.isEmpty() && q2.isEmpty();
     }
 }
+
+---
+38. Longest Matching in Dictionary with Removals {Type -> Medium} 22-09-2026
+Link: https://www.geeksforgeeks.org/problems/find-largest-word-in-dictionary2430/1
+Code:
+class Solution {
+    public String findLongestWord(String s, List<String> d) {
+        int n = s.length();
+
+        // Store positions of every character in s
+        List<Integer>[] pos = new ArrayList[26];
+
+        for (int i = 0; i < 26; i++) {
+            pos[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < n; i++) {
+            pos[s.charAt(i) - 'a'].add(i);
+        }
+
+        String ans = "";
+
+        for (String word : d) {
+            if (!isSubsequence(word, pos)) {
+                continue;
+            }
+
+            // Longer word is better.
+            // If same length, lexicographically smaller is better.
+            if (word.length() > ans.length() ||
+                (word.length() == ans.length() && word.compareTo(ans) < 0)) {
+                ans = word;
+            }
+        }
+
+        return ans;
+    }
+
+    private boolean isSubsequence(String word, List<Integer>[] pos) {
+        int prev = -1;
+
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+
+            List<Integer> list = pos[ch - 'a'];
+
+            // Find first position greater than prev
+            int next = upperBound(list, prev);
+
+            if (next == list.size()) {
+                return false;
+            }
+
+            prev = list.get(next);
+        }
+
+        return true;
+    }
+
+    private int upperBound(List<Integer> list, int target) {
+        int low = 0;
+        int high = list.size();
+
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            if (list.get(mid) <= target) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+
+        return low;
+    }
+}
