@@ -1,1 +1,28 @@
-
+1. F. Deranged Calculator 23-09-2026
+Link: https://codeforces.com/contest/2264/problem/F
+Code:
+import java.util.*;
+public class Main {
+    static String constant(int x) {
+        if (x == 1) return "n/n";
+        String s = "n";
+        for (int i = 2; i <= x; i++)
+            s += "+n";
+        return "(" + s + ")/n";
+    }
+    static String ge(String x) {
+        return "round(n/(n+" + x + "))";
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int k = sc.nextInt();
+        String ans = "n/n";
+        for (int i = 3; i <= k; i++) {
+            ans = "(" + constant(i - 1) + "*" + ge(constant(i))
+                 + "+n/n)*(" + ans + ")"
+                 + (i % 2 == 1 ? "-n/n" : "+n/n")
+                 + "*" + ge(constant(i));
+        }
+        System.out.println(ans);
+    }
+}
