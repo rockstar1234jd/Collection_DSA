@@ -1,1 +1,21 @@
+1. Janmansh and Assignments {Difficulty -> 513} 23-09-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/JASSIGNMENTS
+Code:
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner sc = new Scanner(System.in);
+		int times = sc.nextInt();
+		while(times --> 0){
+		    int started_time = sc.nextInt();
+		    int time_taken = 10 - started_time;
+		    String result = (time_taken >= 3)? "Yes" : "No";
+		    System.out.println(result);
+		}
+	}
+}
 
