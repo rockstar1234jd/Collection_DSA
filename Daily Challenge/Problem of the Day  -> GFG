@@ -1627,3 +1627,29 @@ class Solution {
         return low;
     }
 }
+
+---
+39. Pyramid Array with Reduce Operations {Type -> Medium} 23-09-2026
+Link: https://www.geeksforgeeks.org/problems/pyramid-form3044/1
+Code:
+class Solution {
+    public int formPyramid(int[] arr) {
+        int n = arr.length;
+        long total = 0;
+        for (int x : arr) total += x;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        left[0] = Math.min(arr[0], 1);
+        for (int i = 1; i < n; i++)
+            left[i] = Math.min(arr[i], left[i - 1] + 1);
+        right[n - 1] = Math.min(arr[n - 1], 1);
+        for (int i = n - 2; i >= 0; i--)
+            right[i] = Math.min(arr[i], right[i + 1] + 1);
+        long max = 0;
+        for (int i = 0; i < n; i++) {
+            long h = Math.min(left[i], right[i]);
+            max = Math.max(max, h * h);
+        }
+        return (int)(total - max);
+    }
+}
