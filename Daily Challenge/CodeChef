@@ -19,3 +19,23 @@ class Codechef
 	}
 }
 
+---
+2.  Exams {Difficulty -> 519} 24-09-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/EXAMCHEF
+Code:
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+        Scanner sc  = new Scanner(System.in);
+        int times = sc.nextInt();
+        while(times --> 0){
+            int x =sc.nextInt();
+            int y =sc.nextInt();
+            int z =sc.nextInt();
+            int merge_students = x*y;
+            String result = ((merge_students/2) < z) ? "Yes" : "No";
+            System.out.println(result);
+        }
+	}
+}
