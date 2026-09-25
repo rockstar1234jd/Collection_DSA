@@ -1698,3 +1698,33 @@ class Solution {
                }
     }
 }
+
+41. Box stacking {Type -> Hard} 25-09-2026
+Link: https://www.geeksforgeeks.org/problems/box-stacking/1
+Code:
+class Solution {
+    public int maxHeight(int[] h, int[] w, int[] l) {
+        int n = h.length;
+        int[][] box = new int[3 * n][3];
+        int k = 0;
+        for (int i = 0; i < n; i++) {
+            box[k++] = new int[]{h[i], Math.max(w[i], l[i]), Math.min(w[i], l[i])};
+            box[k++] = new int[]{w[i], Math.max(h[i], l[i]), Math.min(h[i], l[i])};
+            box[k++] = new int[]{l[i], Math.max(h[i], w[i]), Math.min(h[i], w[i])};
+        }
+        Arrays.sort(box, (a, b) -> b[1] * b[2] - a[1] * a[2]);
+        int[] dp = new int[k];
+        int ans = 0;
+        for (int i = 0; i < k; i++) {
+            dp[i] = box[i][0];
+            for (int j = 0; j < i; j++) {
+                if (box[i][1] < box[j][1] &&
+                    box[i][2] < box[j][2]) {
+                    dp[i] = Math.max(dp[i], dp[j] + box[i][0]);
+                }
+            }
+            ans = Math.max(ans, dp[i]);
+        }
+        return ans;
+    }
+}
