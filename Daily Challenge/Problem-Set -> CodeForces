@@ -121,3 +121,33 @@ public class Solution {
         }
     }
 }
+
+---
+3. A. Turn Into a Palindrome 25-09-2026
+Link: https://codeforces.com/contest/2267/problem/A
+Code:
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            char c = sc.next().charAt(0);
+            String s = sc.next();
+            int coins = 0;
+            for (int i = 0; i < n / 2; i++) {
+                char a = s.charAt(i);
+                char b = s.charAt(n - i - 1);
+                if (a != b) {
+                    if (a == c || b == c)
+                        coins += 1;
+                    else
+                        coins += 2;
+                }
+            }
+            System.out.println(coins);
+        }
+        sc.close();
+    }
+}
