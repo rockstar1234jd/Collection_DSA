@@ -1799,3 +1799,51 @@ class Solution {
         return -1;
     }
 }
+
+---
+41. Brace Expansion II {Type -> Hard} Leetcode -> 1096
+Link: https://leetcode.com/problems/brace-expansion-ii
+Code:
+class Solution {
+    int i = 0;
+    public List<String> braceExpansionII(String expression) {
+        Set<String> set = solve(expression);
+        List<String> ans = new ArrayList<>(set);
+        Collections.sort(ans);
+        return ans;
+    }
+    Set<String> solve(String s) {
+        Set<String> res = new HashSet<>();
+        Set<String> cur = new HashSet<>();
+        cur.add("");
+        while (i < s.length() && s.charAt(i) != '}') {
+            char c = s.charAt(i);
+            if (c == '{') {
+                i++;
+                cur = combine(cur, solve(s));
+                i++;
+            } 
+            else if (c == ',') {
+                res.addAll(cur);
+                cur = new HashSet<>();
+                cur.add("");
+                i++;
+            } 
+            else {
+                Set<String> x = new HashSet<>();
+                x.add(String.valueOf(c));
+                cur = combine(cur, x);
+                i++;
+            }
+        }
+        res.addAll(cur);
+        return res;
+    }
+    Set<String> combine(Set<String> a, Set<String> b) {
+        Set<String> res = new HashSet<>();
+        for (String x : a)
+            for (String y : b)
+                res.add(x + y);
+        return res;
+    }
+}
