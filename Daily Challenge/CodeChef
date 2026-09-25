@@ -39,3 +39,25 @@ class Codechef
         }
 	}
 }
+
+---
+3. Chef in his Office {Difficulty -> 532} 25-09-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/OFFICE
+Code:
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+      Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while (T-- > 0) {
+            int X = sc.nextInt();
+            int Y = sc.nextInt();
+            System.out.println(4 * X + Y);
+        }
+        sc.close();
+	}
+}
