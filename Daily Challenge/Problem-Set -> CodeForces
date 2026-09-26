@@ -151,3 +151,44 @@ public class Main {
         sc.close();
     }
 }
+
+---
+4. A. K Is Important 26-09-2026
+Link: https://codeforces.com/contest/2268/problem/A
+Code:
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            long[] a = new long[n];
+            long total = 0;
+            for (int i = 0; i < n; i++) {
+                a[i] = sc.nextLong();
+                total += a[i];
+            }
+            int left = k - 1;
+            int removable = n - k + 1;
+            int pairs = Math.min(left, removable);
+            long keep = 0;
+            for (int i = 0; i < pairs; i++) {
+                keep += Math.min(a[i], a[n - 1 - i]);
+            }
+            if (left > removable) {
+                for (int i = removable; i < left; i++) {
+                    keep += a[i];
+                }
+            }
+            System.out.println(total - keep);
+        }
+        sc.close();
+    }
+}
+
+---
+5.
+Link:
+Code:
