@@ -189,6 +189,132 @@ public class Main {
 }
 
 ---
-5.
-Link:
+5. B. What a SauSaGe! It's All Meat 26-09-2026
+Link: https://codeforces.com/contest/2268/problem/B
 Code:
+import java.io.*;
+import java.util.*;
+public class Main {
+    static final int STATES = 8;
+    static final int NEG = -1000000;
+    static final int[] mask = {
+        0, 3, 5, 6, 9, 10, 12, 15
+    };
+    static int n;
+    static int[] a;
+    static int[][] tree;
+    static int[] merge(int[] left, int[] right) {
+        int[] res = new int[STATES];
+        Arrays.fill(res, NEG);
+        for (int x = 0; x < STATES; x++) {
+            for (int y = 0; y < STATES; y++) {
+                int z = x ^ y;
+                res[z] = Math.max(res[z], left[x] + right[y]);
+            }
+        }
+        return res;
+    }
+    static int[] makeLeaf(int value) {
+        int[] node = new int[STATES];
+        for (int i = 0; i < STATES; i++) {
+            int v = value ^ mask[i];
+            if (v % 3 == 0)
+                node[i] = 1;
+            else
+                node[i] = 0;
+        }
+        return node;
+    }
+    static void build(int node, int l, int r) {
+        if (l == r) {
+            tree[node] = makeLeaf(a[l]);
+            return;
+        }
+        int mid = (l + r) / 2;
+        build(node * 2, l, mid);
+        build(node * 2 + 1, mid + 1, r);
+        tree[node] = merge(tree[node * 2], tree[node * 2 + 1]);
+    }
+    static void update(int node, int l, int r, int pos, int value) {
+        if (l == r) {
+            tree[node] = makeLeaf(value);
+            return;
+        }
+        int mid = (l + r) / 2;
+        if (pos <= mid)
+            update(node * 2, l, mid, pos, value);
+        else
+            update(node * 2 + 1, mid + 1, r, pos, value);
+        tree[node] = merge(tree[node * 2], tree[node * 2 + 1]);
+    }
+    static int getAnswer() {
+        int ans = 0;
+        for (int i = 0; i < STATES; i++) {
+            ans = Math.max(ans, tree[1][i]);
+        }
+        return ans;
+    }
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        StringBuilder out = new StringBuilder();
+        int t = fs.nextInt();
+        while (t-- > 0) {
+            n = fs.nextInt();
+            int q = fs.nextInt();
+            a = new int[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = fs.nextInt();
+            }
+            tree = new int[4 * n][STATES];
+            build(1, 0, n - 1);
+            out.append(getAnswer()).append(' ');
+            while (q-- > 0) {
+                int p = fs.nextInt() - 1;
+                int x = fs.nextInt();
+                a[p] = x;
+                update(1, 0, n - 1, p, x);
+                out.append(getAnswer());
+                if (q > 0)
+                    out.append(' ');
+            }
+            out.append('\n');
+        }
+
+        System.out.print(out);
+    }
+    static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0, len = 0;
+        FastScanner(InputStream in) {
+            this.in = in;
+        }
+        private int read() throws IOException {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+
+                if (len <= 0)
+                    return -1;
+            }
+            return buffer[ptr++];
+        }
+        int nextInt() throws IOException {
+            int c;
+            do {
+                c = read();
+            } while (c <= ' ');
+            int sign = 1;
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+            int num = 0;
+            while (c > ' ') {
+                num = num * 10 + (c - '0');
+                c = read();
+            }
+            return num * sign;
+        }
+    }
+}
