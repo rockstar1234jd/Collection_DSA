@@ -1731,3 +1731,28 @@ class Solution {
         return ans;
     }
 }
+
+---
+42. Minimum Cost Pizza Selection {Type -> Medium} 26-09-2026
+Link: https://www.geeksforgeeks.org/problems/pizza-mania0155/1
+Code:
+class Solution {
+    public int minimumCost(int x, int s, int m, int l, int cs, int cm, int cl) {
+        int[] dp = new int[x + l + 1];
+        int INF = Integer.MAX_VALUE / 2;
+        for (int i = 1; i < dp.length; i++)
+            dp[i] = INF;
+        for (int i = 1; i < dp.length; i++) {
+            if (i >= s)
+                dp[i] = Math.min(dp[i], dp[i - s] + cs);
+            if (i >= m)
+                dp[i] = Math.min(dp[i], dp[i - m] + cm);
+            if (i >= l)
+                dp[i] = Math.min(dp[i], dp[i - l] + cl);
+        }
+        int ans = INF;
+        for (int i = x; i <= x + l; i++)
+            ans = Math.min(ans, dp[i]);
+        return ans;
+    }
+}
