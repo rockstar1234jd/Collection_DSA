@@ -1,4 +1,4 @@
-331. Min Product Subset  {Type  -> Medium}  16-08-2026
+1. Min Product Subset  {Type  -> Medium}  16-08-2026
 Link: https://www.geeksforgeeks.org/problems/max-and-min-products3347/1
 Code:
 class Solution {
@@ -1753,6 +1753,110 @@ class Solution {
         int ans = INF;
         for (int i = x; i <= x + l; i++)
             ans = Math.min(ans, dp[i]);
+        return ans;
+    }
+}
+
+---
+43. Longest Colored Path {Type -> Hard} 27-09-2026
+Link: https://www.geeksforgeeks.org/problems/longest-colored-path--151454/1
+Code:
+class Solution {
+    public int longestPath(String s, int[][] edges) {
+        int n = s.length();
+        List<Integer>[] g = new ArrayList[n];
+        for (int i = 0; i < n; i++) g[i] = new ArrayList<>();
+        for (int[] e : edges) {
+            int u = e[0] - 1, v = e[1] - 1;
+            g[u].add(v);
+            g[v].add(u);
+        }
+        int[] par = new int[n], ord = new int[n], st = new int[n];
+        Arrays.fill(par, -1);
+        int top = 0, k = 0;
+        st[top++] = 0;
+        par[0] = -2;
+        while (top > 0) {
+            int u = st[--top];
+            ord[k++] = u;
+            for (int v : g[u])
+                if (v != par[u]) {
+                    par[v] = u;
+                    st[top++] = v;
+                }
+        }
+        int[] R = new int[n];   // all R
+        int[] B = new int[n];   // all B
+        int[] D = new int[n];   // valid path starting at u
+        int[] E = new int[n];   // valid path ending at u and containing R
+        int ans = 1;
+        for (int z = n - 1; z >= 0; z--) {
+            int u = ord[z];
+            int r1 = 0, r2 = 0, b1 = 0, b2 = 0;
+            int d1 = 0, d2 = 0, e1 = 0, e2 = 0;
+            int ri1 = -1, ri2 = -1, bi1 = -1, bi2 = -1;
+            int di1 = -1, di2 = -1, ei1 = -1, ei2 = -1;
+            for (int v : g[u]) {
+                if (par[v] != u) continue;
+                if (s.charAt(v) == 'R') {
+                    if (R[v] > r1) {
+                        r2 = r1; ri2 = ri1;
+                        r1 = R[v]; ri1 = v;
+                    } else if (R[v] > r2) {
+                        r2 = R[v]; ri2 = v;
+                    }
+                    if (D[v] > d1) {
+                        d2 = d1; di2 = di1;
+                        d1 = D[v]; di1 = v;
+                    } else if (D[v] > d2) {
+                        d2 = D[v]; di2 = v;
+                    }
+                } else {
+                    if (B[v] > b1) {
+                        b2 = b1; bi2 = bi1;
+                        b1 = B[v]; bi1 = v;
+                    } else if (B[v] > b2) {
+                        b2 = B[v]; bi2 = v;
+                    }
+                }
+                if (E[v] > e1) {
+                    e2 = e1; ei2 = ei1;
+                    e1 = E[v]; ei1 = v;
+                } else if (E[v] > e2) {
+                    e2 = E[v]; ei2 = v;
+                }
+            }
+            if (s.charAt(u) == 'R') {
+                R[u] = 1 + r1;
+                D[u] = 1 + Math.max(d1, b1);
+                E[u] = R[u];
+                ans = Math.max(ans, D[u]);
+                ans = Math.max(ans, 1 + r1 + r2);
+                ans = Math.max(ans, 1 + r1 + b1);
+                if (di1 != -1) {
+                    if (di1 == ri1) {
+                        ans = Math.max(ans, 1 + d1 + r2);
+                        ans = Math.max(ans, 1 + d2 + r1);
+                    } else {
+                        ans = Math.max(ans, 1 + d1 + r1);
+                    }
+                }
+            } else {
+                B[u] = 1 + b1;
+                D[u] = B[u];
+                E[u] = e1 == 0 ? 0 : 1 + e1;
+                ans = Math.max(ans, B[u]);
+                ans = Math.max(ans, 1 + b1 + b2);
+                if (ei1 != -1) {
+                    if (ei1 == bi1) {
+                        ans = Math.max(ans, 1 + e1 + b2);
+                        ans = Math.max(ans, 1 + e2 + b1);
+                    } else {
+                        ans = Math.max(ans, 1 + e1 + b1);
+                    }
+                }
+            }
+        }
         return ans;
     }
 }
