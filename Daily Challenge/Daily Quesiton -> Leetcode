@@ -1875,3 +1875,28 @@ Code:
         return ans.toString();
     }
 }
+
+---
+43. Reverse Substrings Between Each Pair of Parentheses {Type -> Medium} Leetcode -> 1190
+Link: https://leetcode.com/problems/reverse-substrings-between-each-pair-of-parentheses
+Code:
+class Solution {
+    public String reverseParentheses(String s) {
+        Stack<StringBuilder> st = new Stack<>();
+        StringBuilder cur = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                st.push(cur);
+                cur = new StringBuilder();
+            } 
+            else if (c == ')') {
+                cur.reverse();
+                cur = st.pop().append(cur);
+            } 
+            else {
+                cur.append(c);
+            }
+        }
+        return cur.toString();
+    }
+}
