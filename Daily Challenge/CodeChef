@@ -89,3 +89,21 @@ class Codechef
             System.out.println("NOT READY");
 	}
 }
+
+---
+5. CRED Coins {Difficulty -> 539} 27-09-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/CREDCOINS
+Code:
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+	 Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while (T-- > 0) {
+            int X = sc.nextInt();
+            int Y = sc.nextInt();
+            System.out.println((X * Y) / 100);
+        }
+	}
+}
