@@ -1860,3 +1860,99 @@ class Solution {
         return ans;
     }
 }
+
+---
+44. Range GCD Queries {Type -> Medium} 28-09-2026
+Link: https://www.geeksforgeeks.org/problems/range-gcd-queries3654/1
+Code:
+class Solution {
+    
+    int[] tree;
+    
+    int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = a % b;
+            a = b;
+            b = temp;
+        }
+        return a;
+    }
+    
+    void build(int[] arr, int node, int start, int end) {
+        if (start == end) {
+            tree[node] = arr[start];
+            return;
+        }
+        
+        int mid = (start + end) / 2;
+        
+        build(arr, 2 * node + 1, start, mid);
+        build(arr, 2 * node + 2, mid + 1, end);
+        
+        tree[node] = gcd(tree[2 * node + 1], tree[2 * node + 2]);
+    }
+    
+    void update(int node, int start, int end, int index, int value) {
+        if (start == end) {
+            tree[node] = value;
+            return;
+        }
+        
+        int mid = (start + end) / 2;
+        
+        if (index <= mid) {
+            update(2 * node + 1, start, mid, index, value);
+        } else {
+            update(2 * node + 2, mid + 1, end, index, value);
+        }
+        
+        tree[node] = gcd(tree[2 * node + 1], tree[2 * node + 2]);
+    }
+    
+    int query(int node, int start, int end, int l, int r) {
+        // Completely outside the range
+        if (end < l || start > r) {
+            return 0;
+        }
+        
+        // Completely inside the range
+        if (l <= start && end <= r) {
+            return tree[node];
+        }
+        
+        int mid = (start + end) / 2;
+        
+        int left = query(2 * node + 1, start, mid, l, r);
+        int right = query(2 * node + 2, mid + 1, end, l, r);
+        
+        return gcd(left, right);
+    }
+    
+    public ArrayList<Integer> processQueries(int[] arr, int[][] queries) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        
+        int n = arr.length;
+        tree = new int[4 * n];
+        
+        // Build segment tree
+        build(arr, 0, 0, n - 1);
+        
+        for (int[] q : queries) {
+            
+            if (q[0] == 0) {
+                // Type 0: range GCD
+                int l = q[1];
+                int r = q[2];
+                
+                ans.add(query(0, 0, n - 1, l, r));
+            } 
+            else {
+                // Type 1: update
+                int index = q[1];
+                int value = q[2];       
+                update(0, 0, n - 1, index, value);
+            }
+        }       
+        return ans;
+    }
+}
