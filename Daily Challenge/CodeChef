@@ -143,3 +143,19 @@ class Codechef
 	}
 }
 }}
+
+---
+7.  Sale Season {Difficulty -> 541} 29-09-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/SALESEASON
+Code:
+ Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while (T-- > 0) {
+            int X = sc.nextInt();
+            if (X > 5000)
+                X -= 500;
+            else if (X > 1000)
+                X -= 100;
+            else if (X > 100)
+                X -= 25;
+            System.out.println(X);
