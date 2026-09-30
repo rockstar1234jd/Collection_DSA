@@ -1951,3 +1951,27 @@ class Solution {
         return dp[m-1][n-1][0];
     }
 }
+
+---
+46. Maximum Nesting Depth of Two Valid Parentheses Strings {Type -> Medium} Leetcode -> 1111
+Link: https://leetcode.com/problems/maximum-nesting-depth-of-two-valid-parentheses-strings
+Code:
+class Solution {
+    public int[] maxDepthAfterSplit(String seq) {
+        int n = seq.length();
+        int[] ans = new int[n];
+        int depth = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (seq.charAt(i) == '(') {
+                ans[i] = depth % 2;
+                depth++;
+            } else {
+                depth--;
+                ans[i] = depth % 2;
+            }
+        }
+
+        return ans;
+    }
+}
