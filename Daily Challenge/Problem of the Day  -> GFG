@@ -1984,3 +1984,29 @@ class Solution {
         return -1;
     }
 }
+
+---
+46. Ways to Reach Origin {Type -> Medium} 30-09-2026
+Link: https://www.geeksforgeeks.org/problems/paths-to-reach-origin3850/1
+Code:
+class Solution {
+    static final int MOD = 1_000_000_007;
+    public int ways(int x, int y) {
+        int n = x + y, k = Math.min(x, y);
+        long ans = 1;
+        for (int i = 1; i <= k; i++) {
+            ans = ans * (n - k + i) % MOD;
+            ans = ans * modPow(i, MOD - 2) % MOD;
+        }
+        return (int) ans;
+    }
+    long modPow(long a, long e) {
+        long r = 1;
+        while (e > 0) {
+            if ((e & 1) == 1) r = r * a % MOD;
+            a = a * a % MOD;
+            e >>= 1;
+        }
+        return r;
+    }
+}
