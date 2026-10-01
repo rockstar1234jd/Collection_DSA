@@ -1933,8 +1933,6 @@ class Solution {
         
         int n = arr.length;
         tree = new int[4 * n];
-        
-        // Build segment tree
         build(arr, 0, 0, n - 1);
         
         for (int[] q : queries) {
