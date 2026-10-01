@@ -2010,3 +2010,47 @@ class Solution {
         return r;
     }
 }
+
+---
+47. Minimum Time to Finish Project {Type -> Medium} 01-10-2026
+Link: https://www.geeksforgeeks.org/problems/project-manager--141631/1
+Code:
+class Solution {
+    public int minTime(int[] duration, int[][] dependencies) {
+        int n = duration.length;
+        ArrayList<ArrayList<Integer>> g = new ArrayList<>();
+        for (int i = 0; i < n; i++) g.add(new ArrayList<>());
+
+        int[] in = new int[n];
+        for (int[] e : dependencies) {
+            g.get(e[0]).add(e[1]);
+            in[e[1]]++;
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        long[] dp = new long[n];
+
+        for (int i = 0; i < n; i++) {
+            dp[i] = duration[i];
+            if (in[i] == 0) q.add(i);
+        }
+
+        int cnt = 0;
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            cnt++;
+
+            for (int v : g.get(u)) {
+                dp[v] = Math.max(dp[v], dp[u] + duration[v]);
+                if (--in[v] == 0) q.add(v);
+            }
+        }
+
+        if (cnt != n) return -1;
+
+        long ans = 0;
+        for (long x : dp) ans = Math.max(ans, x);
+
+        return (int) ans;
+    }
+}
