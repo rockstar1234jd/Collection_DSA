@@ -1943,3 +1943,37 @@ class Solution {
         return head == 0;
     }
 }
+
+---
+49. Longest Valid Parentheses {Type -> Hard} Leetcode -> 32
+Link: https://leetcode.com/problems/longest-valid-parentheses
+Code:
+class Solution {
+    public int longestValidParentheses(String s) {
+        int n = s.length();
+        int[] stack = new int[n + 1];
+        int top = -1;
+
+        // Base index before the start of the string
+        stack[++top] = -1;
+
+        int maxLen = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == '(') {
+                stack[++top] = i;
+            } else {
+                top--; // pop
+
+                if (top == -1) {
+                    // No matching '(', set new base
+                    stack[++top] = i;
+                } else {
+                    maxLen = Math.max(maxLen, i - stack[top]);
+                }
+            }
+        }
+
+        return maxLen;
+    }
+}
