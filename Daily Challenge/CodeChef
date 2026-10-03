@@ -163,3 +163,19 @@ Scanner sc = new Scanner(System.in);
                 System.out.println("OUT");
             }
         }
+
+---
+8. Chef and NextGen {Difficulty -> 562} 03-10-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/HELIUM3
+Code:
+Scanner sc = new Scanner(System.in);
+		int times = sc.nextInt();
+		while(times --> 0){
+		    int A = sc.nextInt();
+		    int B = sc.nextInt();
+		    int C = sc.nextInt();
+		    int D = sc.nextInt();
+		    int multiple_req = A*B;
+		    int multiple_cap = C*D;
+		    String result = (multiple_req <= multiple_cap) ? "YES" : "NO";
+		    System.out.println(result);
