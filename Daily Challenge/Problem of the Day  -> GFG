@@ -1933,8 +1933,6 @@ class Solution {
         
         int n = arr.length;
         tree = new int[4 * n];
-        
-        // Build segment tree
         build(arr, 0, 0, n - 1);
         
         for (int[] q : queries) {
@@ -1958,6 +1956,88 @@ class Solution {
 }
 
 ---
+48. Coils in Matrix {Type -> Medium} 03-10-2026
+Link: https://www.geeksforgeeks.org/problems/form-coils-in-a-matrix4726/1
+Code:
+class Solution {
+    public ArrayList<ArrayList<Integer>> formCoils(int n) {
+        int m = 4 * n;
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+
+        // First coil: starts at top-left, direction order Down -> Right -> Up -> Left
+        ans.add(buildCoil(m, 0, 0, 0));
+
+        // Second coil: starts at bottom-right, direction order Up -> Left -> Down -> Right
+        ans.add(buildCoil(m, m - 1, m - 1, 2));
+
+        return ans;
+    }
+
+    private ArrayList<Integer> buildCoil(int m, int sr, int sc, int startDir) {
+        ArrayList<Integer> coil = new ArrayList<>();
+
+        int[] dr = {1, 0, -1, 0};
+        int[] dc = {0, 1, 0, -1};
+
+        int r = sr, c = sc, dir = startDir;
+        coil.add(r * m + c + 1);
+
+        ArrayList<Integer> lengths = new ArrayList<>();
+        lengths.add(m);
+
+        for (int len = m - 2; len >= 2; len -= 2) {
+            lengths.add(len);
+            lengths.add(len);
+        }
+
+        for (int i = 0; i < lengths.size(); i++) {
+            int steps = lengths.get(i);
+
+            // First segment already includes the starting cell
+            if (i == 0) steps--;
+
+            for (int s = 0; s < steps; s++) {
+                r += dr[dir];
+                c += dc[dir];
+                coil.add(r * m + c + 1);
+            }
+
+            dir = (dir + 1) % 4;
+        }
+
+        return coil;
+    }
+}
+
+---
+49. Perimeter of Shapes in Binary Matrix {Type -> Easy} 04-10-2026
+Link: https://www.geeksforgeeks.org/problems/find-perimeter-of-shapes/1
+Code:
+class Solution {
+    static int findPerimeter(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+        int perimeter = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (mat[i][j] == 1) {
+                    perimeter += 4;
+
+                    // Check right neighbor
+                    if (j + 1 < m && mat[i][j + 1] == 1) {
+                        perimeter -= 2;
+                    }
+                    // Check down neighbor
+                    if (i + 1 < n && mat[i + 1][j] == 1) {
+                        perimeter -= 2;
+                    }
+                }
+            }
+        }
+
+        return perimeter;
+
 45. Min Steps by Knight {Type -> Medium} 29-09-2026
 Link: https://www.geeksforgeeks.org/problems/steps-by-knight5927/1
 Code:
@@ -2082,5 +2162,6 @@ class Solution {
 
         int start = Math.min(i, j);
         return s.substring(start) + s.substring(0, start);
+
     }
 }

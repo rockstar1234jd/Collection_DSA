@@ -378,6 +378,31 @@ public class Main {
 }
 
 ---
+8. A. Bit++
+Link: https://codeforces.com/problemset/problem/282/A
+Code:
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int x = 0;
+        while (n-- > 0) {
+            String statement = sc.next();
+            if (statement.contains("++")) {
+                x++;
+            } else {
+                x--;
+            }
+        }
+        System.out.println(x);
+    }
+}
+
+---
+9. A. Domino piling
+Link: https://codeforces.com/problemset/problem/50/A
+
 8. A. Way Too Long Words
 Link: https://codeforces.com/problemset/problem/71/A
 Code:
@@ -402,12 +427,17 @@ public class Main {
 
 9. A. Team
 Link: https://codeforces.com/problemset/problem/231/A
+
 Code:
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        System.out.println((m * n) / 2);
+
         int n = sc.nextInt();
         int count = 0;
 
@@ -453,5 +483,6 @@ public class Main {
         }
         
         System.out.println(count);
+
     }
 }

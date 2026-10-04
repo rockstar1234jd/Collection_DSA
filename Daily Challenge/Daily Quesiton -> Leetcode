@@ -1921,6 +1921,61 @@ class Solution {
         return maxDepth;
     }
 }
+---
+46. Valid Parentheses {Type -> Easy} Leetcode -> 20
+Link: https://leetcode.com/problems/valid-parentheses
+Code:
+class Solution {
+    public boolean isValid(String s) {
+        char[] stack = new char[s.length()];
+        int head = 0;       
+        for (char c : s.toCharArray()) {
+            switch (c) {
+                case '(': stack[head++] = ')'; break;
+                case '[': stack[head++] = ']'; break;
+                case '{': stack[head++] = '}'; break;
+                default:
+                    if (head == 0 || stack[--head] != c) {
+                        return false;
+                    }
+            }
+        }
+        return head == 0;
+    }
+}
+
+---
+49. Longest Valid Parentheses {Type -> Hard} Leetcode -> 32
+Link: https://leetcode.com/problems/longest-valid-parentheses
+Code:
+class Solution {
+    public int longestValidParentheses(String s) {
+        int n = s.length();
+        int[] stack = new int[n + 1];
+        int top = -1;
+
+        // Base index before the start of the string
+        stack[++top] = -1;
+
+        int maxLen = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == '(') {
+                stack[++top] = i;
+            } else {
+                top--; // pop
+
+                if (top == -1) {
+                    // No matching '(', set new base
+                    stack[++top] = i;
+                } else {
+                    maxLen = Math.max(maxLen, i - stack[top]);
+                }
+            }
+        }
+
+        return maxLen;
+
 
 ---
 45. Check if There Is a Valid Parentheses String Path {Type -> Hard} Leetcode -> 2267
@@ -1949,10 +2004,35 @@ class Solution {
             }
         }
         return dp[m-1][n-1][0];
+
     }
 }
 
 ---
+50. Valid Parenthesis String {Type -> Medium} Leetcode -> 678
+Link: https://leetcode.com/problems/valid-parenthesis-string
+Code:
+class Solution {
+    public boolean checkValidString(String s) {
+        int minOpen = 0; // minimum possible number of unmatched '('
+        int maxOpen = 0; // maximum possible number of unmatched '('
+
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                minOpen++;
+                maxOpen++;
+            } else if (c == ')') {
+                minOpen = Math.max(0, minOpen - 1);
+                maxOpen--;
+                if (maxOpen < 0) return false; // too many ')'
+            } else { // c == '*'
+                minOpen = Math.max(0, minOpen - 1); // treat '*' as ')'
+                maxOpen++;                          // treat '*' as '('
+            }
+        }
+
+        return minOpen == 0;
+
 46. Maximum Nesting Depth of Two Valid Parentheses Strings {Type -> Medium} Leetcode -> 1111
 Link: https://leetcode.com/problems/maximum-nesting-depth-of-two-valid-parentheses-strings
 Code:
@@ -2004,5 +2084,6 @@ class Solution {
             backtrack(result, current, open, close + 1, n);
             current.deleteCharAt(current.length() - 1);
         }
+
     }
 }
