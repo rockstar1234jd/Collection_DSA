@@ -179,3 +179,22 @@ Scanner sc = new Scanner(System.in);
 		    int multiple_cap = C*D;
 		    String result = (multiple_req <= multiple_cap) ? "YES" : "NO";
 		    System.out.println(result);
+
+---
+9. Sugarcane Juice Business {Difficulty -> 563} 04-10-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/SUGARCANE
+Code:
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        StringBuilder sb = new StringBuilder();
+        while (t-- > 0) {
+            long n = sc.nextLong();
+            sb.append(15 * n).append('\n');
+        }
+        System.out.print(sb);
+    }
+}
