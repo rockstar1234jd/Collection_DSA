@@ -1975,6 +1975,36 @@ class Solution {
         }
 
         return maxLen;
+
+
+---
+45. Check if There Is a Valid Parentheses String Path {Type -> Hard} Leetcode -> 2267
+Link: https://leetcode.com/problems/check-if-there-is-a-valid-parentheses-string-path
+Code:
+class Solution {
+    public boolean hasValidPath(char[][] g) {
+        int m = g.length, n = g[0].length;
+        if ((m + n - 1) % 2 == 1 || g[0][0] == ')' || g[m-1][n-1] == '(')
+            return false;
+        boolean[][][] dp = new boolean[m][n][m + n];
+        dp[0][0][1] = true;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int b = 0; b < m + n; b++) {
+                    if (!dp[i][j][b]) continue;
+                    if (i + 1 < m) {
+                        int x = b + (g[i+1][j] == '(' ? 1 : -1);
+                        if (x >= 0) dp[i+1][j][x] = true;
+                    }
+                    if (j + 1 < n) {
+                        int x = b + (g[i][j+1] == '(' ? 1 : -1);
+                        if (x >= 0) dp[i][j+1][x] = true;
+                    }
+                }
+            }
+        }
+        return dp[m-1][n-1][0];
+
     }
 }
 
@@ -2002,5 +2032,58 @@ class Solution {
         }
 
         return minOpen == 0;
+
+46. Maximum Nesting Depth of Two Valid Parentheses Strings {Type -> Medium} Leetcode -> 1111
+Link: https://leetcode.com/problems/maximum-nesting-depth-of-two-valid-parentheses-strings
+Code:
+class Solution {
+    public int[] maxDepthAfterSplit(String seq) {
+        int n = seq.length();
+        int[] ans = new int[n];
+        int depth = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (seq.charAt(i) == '(') {
+                ans[i] = depth % 2;
+                depth++;
+            } else {
+                depth--;
+                ans[i] = depth % 2;
+            }
+        }
+
+        return ans;
+    }
+}
+
+---
+47. Generate Parentheses {Type -> Medium} Leetcode -> 22
+Link: https://leetcode.com/problems/generate-parentheses
+Code:
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+        backtrack(result, new StringBuilder(), 0, 0, n);
+        return result;
+    }
+
+    private void backtrack(List<String> result, StringBuilder current, int open, int close, int n) {
+        if (current.length() == 2 * n) {
+            result.add(current.toString());
+            return;
+        }
+
+        if (open < n) {
+            current.append('(');
+            backtrack(result, current, open + 1, close, n);
+            current.deleteCharAt(current.length() - 1);
+        }
+
+        if (close < open) {
+            current.append(')');
+            backtrack(result, current, open, close + 1, n);
+            current.deleteCharAt(current.length() - 1);
+        }
+
     }
 }

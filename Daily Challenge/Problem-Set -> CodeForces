@@ -402,6 +402,32 @@ public class Main {
 ---
 9. A. Domino piling
 Link: https://codeforces.com/problemset/problem/50/A
+
+8. A. Way Too Long Words
+Link: https://codeforces.com/problemset/problem/71/A
+Code:
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        while (n-- > 0) {
+            String s = sc.next();
+
+            if (s.length() > 10)
+                System.out.println("" + s.charAt(0) + (s.length() - 2) + s.charAt(s.length() - 1));
+            else
+                System.out.println(s);
+        }
+    }
+}
+
+9. A. Team
+Link: https://codeforces.com/problemset/problem/231/A
+
 Code:
 import java.util.Scanner;
 
@@ -411,5 +437,52 @@ public class Main {
         int m = sc.nextInt();
         int n = sc.nextInt();
         System.out.println((m * n) / 2);
+
+        int n = sc.nextInt();
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
+
+            if (a + b + c >= 2) {
+                count++;
+            }
+        }
+
+        System.out.println(count);
+        sc.close();
+    }
+}
+
+---
+10. A. Next Round
+Link: https://codeforces.com/problemset/problem/158/A
+Code:
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        
+        int[] scores = new int[n];
+        for (int i = 0; i < n; i++) {
+            scores[i] = sc.nextInt();
+        }
+        
+        int threshold = scores[k - 1];
+        int count = 0;
+        
+        for (int i = 0; i < n; i++) {
+            if (scores[i] >= threshold && scores[i] > 0) {
+                count++;
+            }
+        }
+        
+        System.out.println(count);
+
     }
 }

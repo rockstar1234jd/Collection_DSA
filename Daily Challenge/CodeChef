@@ -197,4 +197,68 @@ public class Main {
         }
         System.out.print(sb);
     }
+
+7.  Sale Season {Difficulty -> 541} 29-09-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/SALESEASON
+Code:
+ Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        while (T-- > 0) {
+            int X = sc.nextInt();
+            if (X > 5000)
+                X -= 500;
+            else if (X > 1000)
+                X -= 100;
+            else if (X > 100)
+                X -= 25;
+            System.out.println(X);
+
+---
+8. Minimum Pizzas {Difficulty -> 546} 30-09-20226
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/MINPIZZA
+Code:
+ Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+
+        while (T-- > 0) {
+            int N = sc.nextInt();
+            int X = sc.nextInt();
+
+            int totalSlices = N * X;
+            int pizzas = (totalSlices + 3) / 4; // ceiling division by 4
+
+            System.out.println(pizzas);
+        }
+
+        sc.close();
+
+---
+9. Expert Setter {Difficulty -> 561} 02-10-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/EXPERT
+Code:
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		// your code goes here
+		Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+
+        while (T-- > 0) {
+            int X = sc.nextInt();
+            int Y = sc.nextInt();
+
+            if (2 * Y >= X) {
+                System.out.println("YES");
+            } else {
+                System.out.println("NO");
+            }
+        }
+
+	}
+
 }
