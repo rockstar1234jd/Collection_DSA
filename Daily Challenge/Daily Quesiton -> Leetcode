@@ -1977,3 +1977,30 @@ class Solution {
         return maxLen;
     }
 }
+
+---
+50. Valid Parenthesis String {Type -> Medium} Leetcode -> 678
+Link: https://leetcode.com/problems/valid-parenthesis-string
+Code:
+class Solution {
+    public boolean checkValidString(String s) {
+        int minOpen = 0; // minimum possible number of unmatched '('
+        int maxOpen = 0; // maximum possible number of unmatched '('
+
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                minOpen++;
+                maxOpen++;
+            } else if (c == ')') {
+                minOpen = Math.max(0, minOpen - 1);
+                maxOpen--;
+                if (maxOpen < 0) return false; // too many ')'
+            } else { // c == '*'
+                minOpen = Math.max(0, minOpen - 1); // treat '*' as ')'
+                maxOpen++;                          // treat '*' as '('
+            }
+        }
+
+        return minOpen == 0;
+    }
+}
