@@ -287,3 +287,25 @@ class Codechef
 
 	}
 }
+
+---
+11. Count the Notebooks {Difficulty -> 563} 06-10-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/NOTEBOOK
+Code: 
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner sc = new Scanner(System.in);
+		int times = sc.nextInt();
+		while(times --> 0){
+		    int num = sc.nextInt();
+		    System.out.println(num*10);
+		}
+
+	}
+}
