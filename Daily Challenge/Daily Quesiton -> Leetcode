@@ -2119,3 +2119,28 @@ class Solution {
         return stack.pop();
     }
 }
+
+---
+52. Minimum Add to Make Parentheses Valid {Type -> Meidum} Leetcode -> 921
+Link: https://leetcode.com/problems/minimum-add-to-make-parentheses-valid
+Code:
+class Solution {
+    public int minAddToMakeValid(String s) {
+        int open = 0;    // unmatched '('
+        int close = 0;   // unmatched ')'
+
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                open++;
+            } else {
+                if (open > 0) {
+                    open--;       // matched with a previous '('
+                } else {
+                    close++;      // unmatched ')' needs an '(' inserted before it
+                }
+            }
+        }
+
+        return open + close;
+    }
+}
