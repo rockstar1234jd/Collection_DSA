@@ -516,7 +516,6 @@ public class Main {
         System.out.println(moves);
     }
 }
-
 ---
 12. A. Petya and Strings
 Link: https://codeforces.com/problemset/problem/112/A

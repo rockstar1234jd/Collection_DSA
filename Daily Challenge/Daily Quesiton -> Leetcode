@@ -2089,6 +2089,63 @@ class Solution {
 }
 
 ---
+51. Score of Parentheses {Type -> Meidum} Leetcode -> 856
+Link: https://leetcode.com/problems/score-of-parentheses
+Code:
+class Solution {
+    public int scoreOfParentheses(String s) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+
+        for (char ch : s.toCharArray()) {
+
+            if (ch == '(') {
+                stack.push(0);
+            } else {
+                int inside = stack.pop();
+
+                int score;
+                if (inside == 0) {
+                    score = 1;       // ()
+                } else {
+                    score = 2 * inside;  // (A)
+                }
+
+                int parent = stack.pop();
+                stack.push(parent + score);
+            }
+        }
+
+        return stack.pop();
+    }
+}
+
+---
+52. Minimum Add to Make Parentheses Valid {Type -> Meidum} Leetcode -> 921
+Link: https://leetcode.com/problems/minimum-add-to-make-parentheses-valid
+Code:
+class Solution {
+    public int minAddToMakeValid(String s) {
+        int open = 0;    // unmatched '('
+        int close = 0;   // unmatched ')'
+
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                open++;
+            } else {
+                if (open > 0) {
+                    open--;       // matched with a previous '('
+                } else {
+                    close++;      // unmatched ')' needs an '(' inserted before it
+                }
+            }
+        }
+
+        return open + close;
+    }
+}
+
+---
 53. Remove Invalid Parentheses {Type -> Hard} Leetcode -> 301
 Link: https://leetcode.com/problems/remove-invalid-parentheses
 Code:

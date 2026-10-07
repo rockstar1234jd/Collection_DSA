@@ -2167,7 +2167,95 @@ class Solution {
 }
 
 ---
-49. Max Path Sum Between Two Leaves {Type -> Hard} 07-10-2026
+49. Your Social Network {Type -> Medium} 05-10-2026
+Link: https://www.geeksforgeeks.org/problems/your-social-network0328/1
+Code:
+class Solution {
+    public ArrayList<ArrayList<Integer>> socialNetwork(int[] arr) {
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+
+        int n = arr.length + 1;
+
+        for (int i = 2; i <= n; i++) {
+
+            int current = i;
+            int distance = 0;
+
+            int[] dist = new int[n + 1];
+
+            while (current != 1) {
+                current = arr[current - 2];
+                distance++;
+
+                dist[current] = distance;
+            }
+
+            // j must be in increasing order
+            for (int j = 1; j < i; j++) {
+                if (dist[j] != 0) {
+                    ArrayList<Integer> temp = new ArrayList<>();
+
+                    temp.add(i);
+                    temp.add(j);
+                    temp.add(dist[j]);
+
+                    ans.add(temp);
+                }
+            }
+        }
+
+        return ans;
+    }
+}
+
+---
+50. Longest Increasing Path in Matrix {Type -> Hard} 06-10-2026
+Link: https://www.geeksforgeeks.org/problems/longest-increasing-path-in-a-matrix/1
+Code:
+class Solution {
+    public int longIncPath(int[][] matrix, int n, int m) {
+        int total = n * m;
+        long[] arr = new long[total];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                int idx = i * m + j;
+                // pack value (up to 2^30) in high bits, index (up to 2^20) in low bits
+                arr[idx] = ((long) matrix[i][j] << 20) | idx;
+            }
+        }
+        java.util.Arrays.sort(arr); // ascending; we'll iterate from end for descending value
+
+        int[] dp = new int[total];
+        int ans = 0;
+        int[] di = {-1, 1, 0, 0};
+        int[] dj = {0, 0, -1, 1};
+
+        for (int k = total - 1; k >= 0; k--) {
+            int val = (int) (arr[k] >> 20);
+            int idx = (int) (arr[k] & 0xFFFFF);
+            int i = idx / m;
+            int j = idx % m;
+
+            int best = 1;
+            for (int d = 0; d < 4; d++) {
+                int ni = i + di[d];
+                int nj = j + dj[d];
+                if (ni >= 0 && ni < n && nj >= 0 && nj < m && matrix[ni][nj] > val) {
+                    int nidx = ni * m + nj;
+                    if (dp[nidx] + 1 > best) {
+                        best = dp[nidx] + 1;
+                    }
+                }
+            }
+            dp[idx] = best;
+            if (best > ans) ans = best;
+        }
+        return ans;
+    }
+}
+
+---
+51. Max Path Sum Between Two Leaves {Type -> Hard} 07-10-2026
 Link: https://www.geeksforgeeks.org/problems/maximum-path-sum/1Code: 
 class Solution {
     int leafCount = 0;
