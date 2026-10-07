@@ -2165,3 +2165,51 @@ class Solution {
 
     }
 }
+
+---
+49. Max Path Sum Between Two Leaves {Type -> Hard} 07-10-2026
+Link: https://www.geeksforgeeks.org/problems/maximum-path-sum/1Code: 
+class Solution {
+    int leafCount = 0;
+    int maxSum = Integer.MIN_VALUE;
+
+    public int maxPathSum(Node root) {
+        if (root == null) return -1;
+
+        dfs(root);
+
+        return leafCount < 2 ? -1 : maxSum;
+    }
+
+    private int dfs(Node node) {
+        if (node == null) return Integer.MIN_VALUE;
+
+        // Leaf node
+        if (node.left == null && node.right == null) {
+            leafCount++;
+            return node.data;
+        }
+
+        int left = dfs(node.left);
+        int right = dfs(node.right);
+
+        // If both subtrees contain at least one leaf, a leaf-to-leaf path
+        // can pass through the current node.
+        if (left != Integer.MIN_VALUE && right != Integer.MIN_VALUE) {
+            maxSum = Math.max(maxSum, left + node.data + right);
+        }
+
+        // Maximum downward path sum from current node to any leaf
+        int bestDown = Integer.MIN_VALUE;
+
+        if (left != Integer.MIN_VALUE) {
+            bestDown = Math.max(bestDown, node.data + left);
+        }
+
+        if (right != Integer.MIN_VALUE) {
+            bestDown = Math.max(bestDown, node.data + right);
+        }
+
+        return bestDown;
+    }
+}
