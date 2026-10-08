@@ -2253,3 +2253,36 @@ class Solution {
         return ans;
     }
 }
+
+---
+51. Maximum Frequency with K Increments {Type -> Medium} 08-10-2026
+Link: https://www.geeksforgeeks.org/problems/maximum-frequency-1662528911/1
+Code: 
+import java.util.*;
+
+class Solution {
+    public int maxFrequency(int[] arr, int k) {
+        Arrays.sort(arr);
+
+        int left = 0;
+        long sum = 0;
+        int maxFreq = 1;
+
+        for (int right = 0; right < arr.length; right++) {
+            sum += arr[right];
+
+            // Cost to make all elements in window [left, right] equal to arr[right]
+            long cost = (long) arr[right] * (right - left + 1) - sum;
+
+            while (cost > k) {
+                sum -= arr[left];
+                left++;
+                cost = (long) arr[right] * (right - left + 1) - sum;
+            }
+
+            maxFreq = Math.max(maxFreq, right - left + 1);
+        }
+
+        return maxFreq;
+    }
+}
