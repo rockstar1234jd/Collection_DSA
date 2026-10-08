@@ -328,3 +328,26 @@ Code:
             } else {
                 // minimum packets of 4 candies
                 System.out.println((need + 3) / 4);
+
+---
+13. Car or Bike {Difficulty -> 571} 08-10-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/TRAVELFAST
+Code:
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+        Scanner sc  = new Scanner(System.in);
+        int times = sc.nextInt();
+        while(times --> 0){
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            String result = (x<y) ? "bike" : (x==y) ? "Same" : "car";
+            System.out.println(result);
+        }
+	}
+}
