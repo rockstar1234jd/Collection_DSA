@@ -2286,3 +2286,25 @@ class Solution {
         return maxFreq;
     }
 }
+
+---
+52.Minimum Operations to Reach n {Type -> Easy} 09-10-2026
+Link: https://www.geeksforgeeks.org/problems/find-optimum-operation4504/1
+Code:
+class Solution {
+    public int minOperation(int n) {
+        int ops = 0;
+        
+        // Work backwards from n to 0
+        while (n > 0) {
+            if (n % 2 == 0) {
+                n /= 2;   // reverse of double
+            } else {
+                n -= 1;   // reverse of add one
+            }
+            ops++;
+        }
+        
+        return ops;
+    }
+}
