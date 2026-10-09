@@ -351,3 +351,24 @@ class Codechef
         }
 	}
 }
+
+---
+14. Is the Score Consistent {Difficulty -> 572} 09-10-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/TRUESCORE
+Code:
+ Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+
+        while (T-- > 0) {
+            int A = sc.nextInt();
+            int B = sc.nextInt();
+            int C = sc.nextInt();
+            int D = sc.nextInt();
+
+            // Goals can only increase, never decrease.
+            if (C >= A && D >= B) {
+                System.out.println("POSSIBLE");
+            } else {
+                System.out.println("IMPOSSIBLE");
+            }
+        }
