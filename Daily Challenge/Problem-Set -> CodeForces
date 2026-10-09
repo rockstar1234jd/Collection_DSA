@@ -572,3 +572,23 @@ public class Main {
         System.out.println(sb.toString());
     }
 }
+
+---
+14. A. Word Capitalization
+Link: https://codeforces.com/problemset/problem/281/A
+Code:
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        
+        char first = s.charAt(0);
+        if (first >= 'a' && first <= 'z') {
+            first = (char)(first - 32);
+        }
+        
+        System.out.println(first + s.substring(1));
+    }
+}
