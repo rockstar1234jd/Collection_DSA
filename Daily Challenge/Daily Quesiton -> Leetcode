@@ -2185,3 +2185,46 @@ class Solution {
         return ans;
     }
 }
+
+---
+53. Minimum Sum of Squared Difference {Type -> Medium} Leetcode -> 2333
+Link: https://leetcode.com/problems/minimum-sum-of-squared-difference
+Code:
+class Solution {
+    public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
+        int n = nums1.length;
+        long[] freq = new long[100001]; // max possible difference is 100000
+
+        for (int i = 0; i < n; i++) {
+            int diff = Math.abs(nums1[i] - nums2[i]);
+            freq[diff]++;
+        }
+
+        long k = (long) k1 + k2;
+
+        // Reduce largest differences first, because reducing d by 1
+        // decreases d^2 by 2d - 1, which is larger for larger d.
+        for (int d = 100000; d >= 1 && k > 0; d--) {
+            if (freq[d] == 0) continue;
+
+            if (k >= freq[d]) {
+                k -= freq[d];
+                freq[d - 1] += freq[d];
+                freq[d] = 0;
+            } else {
+                freq[d - 1] += k;
+                freq[d] -= k;
+                k = 0;
+            }
+        }
+
+        long ans = 0;
+        for (int d = 0; d <= 100000; d++) {
+            if (freq[d] > 0) {
+                ans += freq[d] * d * (long) d;
+            }
+        }
+
+        return ans;
+    }
+}
