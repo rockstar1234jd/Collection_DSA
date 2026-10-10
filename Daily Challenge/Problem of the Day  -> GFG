@@ -2308,3 +2308,30 @@ class Solution {
         return ops;
     }
 }
+
+---
+53. Balancing with Distinct Powers {Type -> Easy} 10-10-2026
+Link: https://www.geeksforgeeks.org/problems/balancing-pan5038/1
+Code:
+class Solution {
+    public boolean balancePan(int a, int b) {
+        while (b > 0) {
+            int rem = b % a;
+
+            if (rem == 0) {
+                // No weight of current power is needed.
+                b /= a;
+            } else if (rem == 1) {
+                // Put this power on the opposite side: b = 1 + a*q
+                b = (b - 1) / a;
+            } else if (rem == a - 1) {
+                // Put this power on the same side: b = -1 + a*q
+                b = (b + 1) / a;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
