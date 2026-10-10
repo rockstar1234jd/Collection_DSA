@@ -372,3 +372,19 @@ Code:
                 System.out.println("IMPOSSIBLE");
             }
         }
+
+---
+25. The Three Topics {Difficulty -> 573} 10-10-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/THREETOPICS
+Code:
+Scanner sc = new Scanner(System.in);
+        int A = sc.nextInt();
+        int B = sc.nextInt();
+        int C = sc.nextInt();
+        int X = sc.nextInt();
+
+        if (X == A || X == B || X == C) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
