@@ -616,3 +616,21 @@ public class Main {
         System.out.println(years);
     }
 }           
+
+---
+16. 617A - Elephant 
+Link: https://codeforces.com/problemset/problem/617/A
+Code:
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int x = sc.nextInt();
+        
+        // Minimum number of steps = ceil(x / 5)
+        int steps = (x + 4) / 5;
+        
+        System.out.println(steps);
+    }
+}
