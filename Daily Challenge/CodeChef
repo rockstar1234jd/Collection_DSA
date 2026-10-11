@@ -388,3 +388,25 @@ Scanner sc = new Scanner(System.in);
         } else {
             System.out.println("No");
         }
+
+---
+26. Monopoly {Dfficulty -> 578} 11-10-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/MONOPOLY2
+Code: 
+Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        while (t-- > 0) {
+            int p = sc.nextInt();
+            int q = sc.nextInt();
+            int r = sc.nextInt();
+            int s = sc.nextInt();
+
+            int total = p + q + r + s;
+
+            if (p > total - p || q > total - q || r > total - r || s > total - s) {
+                System.out.println("YES");
+            } else {
+                System.out.println("NO");
+            }
+        }
