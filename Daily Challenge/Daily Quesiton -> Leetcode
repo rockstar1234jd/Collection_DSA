@@ -2146,6 +2146,7 @@ class Solution {
 }
 
 ---
+<<<<<<< HEAD
 53. Remove Invalid Parentheses {Type -> Hard} Leetcode -> 301
 Link: https://leetcode.com/problems/remove-invalid-parentheses
 Code:
@@ -2213,5 +2214,106 @@ class Solution {
         }
 
         return balance == 0;
+=======
+53. Minimum Insertions to Balance a Parentheses String{Type -> Medium} Leetcode -> 1541
+Link: https://leetcode.com/problems/minimum-insertions-to-balance-a-parentheses-string
+Code:
+class Solution {
+    public int minInsertions(String s) {
+        int ans = 0;
+        int open = 0; // unmatched '(' waiting for two ')'
+        int n = s.length();
+
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == '(') {
+                open++;
+            } else {
+                // We have a ')'
+                if (i + 1 < n && s.charAt(i + 1) == ')') {
+                    // It's a pair "))"
+                    if (open > 0) {
+                        open--;
+                    } else {
+                        ans++; // insert one '(' before this pair
+                    }
+                    i++; // skip the second ')'
+                } else {
+                    // It's a single ')'
+                    if (open > 0) {
+                        ans++; // insert one more ')' to complete the pair
+                        open--;
+                    } else {
+                        ans += 2; // insert '(' and ')' 
+                    }
+                }
+            }
+        }
+
+        // Each remaining '(' needs two ')'
+        ans += open * 2;
+        return ans;
+    }
+}
+
+---
+53. Minimum Sum of Squared Difference {Type -> Medium} Leetcode -> 2333
+Link: https://leetcode.com/problems/minimum-sum-of-squared-difference
+Code:
+class Solution {
+    public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
+        int n = nums1.length;
+        long[] freq = new long[100001]; // max possible difference is 100000
+
+        for (int i = 0; i < n; i++) {
+            int diff = Math.abs(nums1[i] - nums2[i]);
+            freq[diff]++;
+        }
+
+        long k = (long) k1 + k2;
+
+        // Reduce largest differences first, because reducing d by 1
+        // decreases d^2 by 2d - 1, which is larger for larger d.
+        for (int d = 100000; d >= 1 && k > 0; d--) {
+            if (freq[d] == 0) continue;
+
+            if (k >= freq[d]) {
+                k -= freq[d];
+                freq[d - 1] += freq[d];
+                freq[d] = 0;
+            } else {
+                freq[d - 1] += k;
+                freq[d] -= k;
+                k = 0;
+            }
+        }
+
+        long ans = 0;
+        for (int d = 0; d <= 100000; d++) {
+            if (freq[d] > 0) {
+                ans += freq[d] * d * (long) d;
+            }
+        }
+
+        return ans;
+    }
+}
+
+---
+54. Sum of Squares of Special Elements {Type -> Easy} Leetcode -> 2778
+Link: https://leetcode.com/problems/sum-of-squares-of-special-elements 
+Code:
+class Solution {
+    public int sumOfSquares(int[] nums) {
+        int n = nums.length;
+        int sum = 0;
+
+        for (int i = 1; i <= n; i++) {
+            if (n % i == 0) {
+                sum += nums[i - 1] * nums[i - 1];
+            }
+        }
+
+        return sum;
+>>>>>>> origin/main
     }
 }
