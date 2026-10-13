@@ -410,3 +410,20 @@ Scanner sc = new Scanner(System.in);
                 System.out.println("NO");
             }
         }
+
+---
+27. Problems in your to-do list {Difficulty -> 580} 13-10-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/TODOLIST
+Code:
+Scanner sc = new Scanner(System.in);
+        int times = sc.nextInt();
+        while(times --> 0 ){
+        int count = 0;
+            int inner_times = sc.nextInt();
+            while(inner_times --> 0){
+                int number = sc.nextInt();
+                if(number >= 1000){
+                    count += 1;
+                }
+            }
+            System.out.println(count);
