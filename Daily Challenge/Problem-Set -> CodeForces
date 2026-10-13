@@ -516,11 +516,6 @@ public class Main {
         System.out.println(moves);
     }
 }
-<<<<<<< HEAD
----
-12. A. Petya and Strings
-Link: https://codeforces.com/problemset/problem/112/A
-=======
 
 ---
 12. A. Boy or Girl
@@ -601,22 +596,12 @@ public class Main {
 ---
 15. A. Bear and Big Brother 
 Link: https://codeforces.com/problemset/problem/791/A
->>>>>>> origin/main
 Code:
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-<<<<<<< HEAD
-        String a = sc.next().toLowerCase();
-        String b = sc.next().toLowerCase();
-
-        int cmp = a.compareTo(b);
-        if (cmp < 0) System.out.println("-1");
-        else if (cmp > 0) System.out.println("1");
-        else System.out.println("0");
-=======
         int a = sc.nextInt();
         int b = sc.nextInt();
 
@@ -647,6 +632,24 @@ public class Main {
         int steps = (x + 4) / 5;
         
         System.out.println(steps);
->>>>>>> origin/main
+    }
+}
+
+---
+17. A. Petya and Strings
+Link: https://codeforces.com/problemset/problem/112/A
+Code:
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String a = sc.next().toLowerCase();
+        String b = sc.next().toLowerCase();
+
+        int cmp = a.compareTo(b);
+        if (cmp < 0) System.out.println("-1");
+        else if (cmp > 0) System.out.println("1");
+        else System.out.println("0");
     }
 }

@@ -2146,75 +2146,6 @@ class Solution {
 }
 
 ---
-<<<<<<< HEAD
-53. Remove Invalid Parentheses {Type -> Hard} Leetcode -> 301
-Link: https://leetcode.com/problems/remove-invalid-parentheses
-Code:
-import java.util.*;
-
-class Solution {
-    public List<String> removeInvalidParentheses(String s) {
-        List<String> result = new ArrayList<>();
-        if (s == null) return result;
-
-        Set<String> visited = new HashSet<>();
-        Queue<String> queue = new LinkedList<>();
-
-        queue.offer(s);
-        visited.add(s);
-
-        boolean found = false;
-
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-
-            for (int i = 0; i < size; i++) {
-                String current = queue.poll();
-
-                if (isValid(current)) {
-                    result.add(current);
-                    found = true;
-                }
-
-                // If we already found valid strings at this removal level,
-                // we should not generate strings with more removals.
-                if (found) continue;
-
-                for (int j = 0; j < current.length(); j++) {
-                    char c = current.charAt(j);
-
-                    // Only remove parentheses
-                    if (c != '(' && c != ')') continue;
-
-                    String next = current.substring(0, j) + current.substring(j + 1);
-
-                    if (visited.add(next)) {
-                        queue.offer(next);
-                    }
-                }
-            }
-
-            // All valid strings with minimum removals are collected
-            if (found) return result;
-        }
-
-        return result;
-    }
-
-    private boolean isValid(String s) {
-        int balance = 0;
-
-        for (char c : s.toCharArray()) {
-            if (c == '(') {
-                balance++;
-            } else if (c == ')') {
-                balance--;
-                if (balance < 0) return false;
-            }
-        }
-
-        return balance == 0;
-=======
 53. Minimum Insertions to Balance a Parentheses String{Type -> Medium} Leetcode -> 1541
 Link: https://leetcode.com/problems/minimum-insertions-to-balance-a-parentheses-string
 Code:
@@ -2314,6 +2245,76 @@ class Solution {
         }
 
         return sum;
->>>>>>> origin/main
+    }
+}
+
+---
+55. Remove Invalid Parentheses {Type -> Hard} Leetcode -> 301
+Link: https://leetcode.com/problems/remove-invalid-parentheses
+Code:
+import java.util.*;
+
+class Solution {
+    public List<String> removeInvalidParentheses(String s) {
+        List<String> result = new ArrayList<>();
+        if (s == null) return result;
+
+        Set<String> visited = new HashSet<>();
+        Queue<String> queue = new LinkedList<>();
+
+        queue.offer(s);
+        visited.add(s);
+
+        boolean found = false;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+            for (int i = 0; i < size; i++) {
+                String current = queue.poll();
+
+                if (isValid(current)) {
+                    result.add(current);
+                    found = true;
+                }
+
+                // If we already found valid strings at this removal level,
+                // we should not generate strings with more removals.
+                if (found) continue;
+
+                for (int j = 0; j < current.length(); j++) {
+                    char c = current.charAt(j);
+
+                    // Only remove parentheses
+                    if (c != '(' && c != ')') continue;
+
+                    String next = current.substring(0, j) + current.substring(j + 1);
+
+                    if (visited.add(next)) {
+                        queue.offer(next);
+                    }
+                }
+            }
+
+            // All valid strings with minimum removals are collected
+            if (found) return result;
+        }
+
+        return result;
+    }
+
+    private boolean isValid(String s) {
+        int balance = 0;
+
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                balance++;
+            } else if (c == ')') {
+                balance--;
+                if (balance < 0) return false;
+            }
+        }
+
+        return balance == 0;
     }
 }
