@@ -2384,3 +2384,28 @@ class Solution {
         System.arraycopy(temp, 0, arr, 0, n);
     }
 }
+---
+55. Adding Ones {Type -> Easy} 13-10-2026
+Link: https://www.geeksforgeeks.org/problems/adding-ones3628/1
+Code:
+class Solution {
+    public ArrayList<Integer> update(int n, int[] updates) {
+        int[] freq = new int[n + 1];
+
+        // Count how many updates start at each index
+        for (int j : updates) {
+            freq[j]++;
+        }
+
+        ArrayList<Integer> arr = new ArrayList<>();
+        int count = 0;
+
+        // Calculate the prefix sum
+        for (int i = 1; i <= n; i++) {
+            count += freq[i];
+            arr.add(count);
+        }
+
+        return arr;
+    }
+}
