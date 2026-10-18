@@ -2458,7 +2458,7 @@ class Solution {
 }
 ---
 58. Successful Binary Searches Irrespective of Pivot {Type -> Medium} 16-10-2026
-Link:https://www.geeksforgeeks.org/problems/count-always-found/1
+Link: https://www.geeksforgeeks.org/problems/count-always-found/1
 Code:
 class Solution {
     public int countAlwaysFound(int[] arr) {
@@ -2484,4 +2484,58 @@ class Solution {
         return count;
     }
 }
+---
+59. Convert One String to Another with Constraints {Type -> Easy} 18-10-2026
+Link: https://www.geeksforgeeks.org/problems/check-if-it-is-possible-to-convert-one-string-into-another-with-given-constraints4116/1
+Code:
+class Solution {
+    public boolean isItPossible(String s1, String s2) {
+        int n = s1.length();
+        if (n != s2.length()) return false;
 
+        int i = 0, j = 0;
+        while (i < n || j < n) {
+            while (i < n && s1.charAt(i) == '#') i++;
+            while (j < n && s2.charAt(j) == '#') j++;
+
+            if (i == n || j == n) {
+                return i == n && j == n;
+            }
+
+            if (s1.charAt(i) != s2.charAt(j)) return false;
+
+            if (s1.charAt(i) == 'A' && i < j) return false;
+
+            if (s1.charAt(i) == 'B' && i > j) return false;
+
+            i++;
+            j++;
+        }
+        return true;
+    }
+}
+---
+60. Shortest Path From 1 To n {Type -> Easy} 18-10-2026
+Link: https://www.geeksforgeeks.org/problems/shortest-path-from-1-to-n0156/1
+Code:
+class Solution {
+    public int minimumStep(int n) {
+        int steps = 0;
+        while (n > 1) {
+            if (n % 3 == 0) {
+                n /= 3;
+                steps++;
+            } else {
+                int r = n % 3;
+                if (n - r < 1) {
+                    steps += n - 1;
+                    n = 1;
+                } else {
+                    steps += r;
+                    n -= r;
+                }
+            }
+        }
+        return steps;
+    }
+}
