@@ -2539,3 +2539,50 @@ class Solution {
         return steps;
     }
 }
+---
+61. Count Indices That Escape Array {Type -> Medium} 19-10-2026
+Link: https://www.geeksforgeeks.org/problems/good-stones--170647/1
+Code:
+class Solution {
+    public int goodIndices(int[] arr) {
+        int n = arr.length;
+        int[] state = new int[n];       
+        boolean[] good = new boolean[n];
+        int[] path = new int[n];
+        int count = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (state[i] != 0) continue;
+
+            int len = 0;
+            int cur = i;
+            boolean result;
+
+            while (true) {
+                if (cur < 0 || cur >= n) {
+                    result = true;
+                    break;
+                }
+                if (state[cur] == 2) {
+                    result = good[cur];
+                    break;
+                }
+                if (state[cur] == 1) {
+                    result = false;
+                    break;
+                }
+                state[cur] = 1;
+                path[len++] = cur;
+                cur = cur + arr[cur];
+            }
+
+            for (int k = 0; k < len; k++) {
+                int node = path[k];
+                state[node] = 2;
+                good[node] = result;
+                if (result) count++;
+            }
+        }
+        return count;
+    }
+}
