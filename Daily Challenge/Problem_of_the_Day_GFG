@@ -2586,3 +2586,32 @@ class Solution {
         return count;
     }
 }
+---
+62. Largest with Same Parity Adjacent Swaps {Type -> Medium} 20-10-2026
+Link: https://www.geeksforgeeks.org/problems/even-swap/1
+Code:
+class Solution {
+    public ArrayList<Integer> lexicographicallyLargest(int[] arr) {
+        int n = arr.length;
+        ArrayList<Integer> res = new ArrayList<>();
+        int i = 0;
+        while (i < n) {
+            int j = i;
+            while (j < n && (arr[j] % 2) == (arr[i] % 2)) {
+                j++;
+            }
+            ArrayList<Integer> seg = new ArrayList<>();
+            for (int k = i; k < j; k++) {
+                seg.add(arr[k]);
+            }
+            Collections.sort(seg, Collections.reverseOrder());
+            res.addAll(seg);
+            i = j;
+        }
+        return res;
+    }
+}
+---
+63.
+Link: 
+Code:
