@@ -2612,6 +2612,38 @@ class Solution {
     }
 }
 ---
-63.
-Link: 
+63. Trace Path {Type -> Easy} 24-10-2026
+Link: https://www.geeksforgeeks.org/problems/trace-path3840/1 
 Code:
+class Solution {
+    public boolean isPossible(int n, int m, String s) {
+        // code here
+        int row = 0, col = 0;
+        int minRow = 0, maxRow = 0;
+        int minCol = 0, maxCol = 0;
+        
+        for(char ch : s.toCharArray()){
+            if(ch == 'L'){
+                col--;
+            }
+            if(ch == 'R'){
+                col++;
+            }
+            if(ch == 'U'){
+                row++;
+            }
+            if(ch == 'D'){
+                row--;
+            }
+            
+            minRow = Math.min(minRow, row); 
+            maxRow = Math.max(maxRow, row); 
+            minCol = Math.min(minCol, col);
+            maxCol = Math.max(maxCol, col);
+            
+        }    
+        return (maxRow - minRow < n) && (maxCol - minCol < m);
+        
+        
+    }
+}
