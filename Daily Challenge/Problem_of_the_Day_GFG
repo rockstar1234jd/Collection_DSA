@@ -2749,3 +2749,24 @@ class Solution {
         return ans;
     }
 }
+
+---
+66. Maximum Weight Transformation of String {Type -> Medium} 27-10-2026
+Link: https://www.geeksforgeeks.org/problems/maximum-weight-transformation-of-a-given-string3551/1
+Code:
+class Solution {
+    public int getMaxWeight(String s) {
+        int n = s.length();
+        int[] dp = new int[n + 1];
+
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 1];
+
+            int gain = (s.charAt(i - 2) != s.charAt(i - 1)) ? 2 : 1;
+
+            dp[i] = Math.max(dp[i], dp[i - 2] + gain);
+        }
+
+        return n + dp[n];
+    }
+}
