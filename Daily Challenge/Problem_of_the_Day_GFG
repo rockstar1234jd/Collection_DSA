@@ -2770,3 +2770,29 @@ class Solution {
         return n + dp[n];
     }
 }
+
+---
+67. Nth in Concatenated Decimal String {Type -> Medium} 28-10-2026
+Link: https://www.geeksforgeeks.org/problems/nth-character-in-concatenated-decimal-string0245/1
+Code:
+class Solution {
+    public static char nthCharacter(int n) {
+        long N = n;
+        long digits = 1;      // current digit length
+        long start = 1;       // first number with this digit length
+        long count = 9;       // how many numbers have this digit length
+        // Find the digit-length block where N lies
+        while (N > digits * count) {
+            N -= digits * count;
+            digits++;
+            start *= 10;
+            count *= 10;
+        }
+        // Find the actual number
+        long number = start + (N - 1) / digits;
+        // Find digit position inside that number (0-based)
+        int pos = (int) ((N - 1) % digits);
+        String num = Long.toString(number);
+        return num.charAt(pos);
+    }
+}
