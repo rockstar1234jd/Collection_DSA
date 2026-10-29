@@ -2473,3 +2473,238 @@ class Solution {
         return -1;
     }
 }
+
+---
+61. Palindromic Path Queries in a Tree {Type -> Hard} Leetcode -> 3841
+Link:https://leetcode.com/problems/palindromic-path-queries-in-a-tree
+Code:
+class Solution {
+
+    List<Integer>[] adj;
+    int[][] up;
+    int[] depth, tin, tout, parent, prefixMask;
+    char[] chars;
+    int timer, LOG, n;
+    SegmentTree seg;
+
+    public List<Boolean> palindromePath(
+            int n, int[][] edges, String s, String[] queries) {
+
+        this.n = n;
+        chars = s.toCharArray();
+
+        // 1. Build adjacency list
+        adj = new ArrayList[n];
+
+        for (int i = 0; i < n; i++) {
+            adj[i] = new ArrayList<>();
+        }
+
+        for (int[] e : edges) {
+            adj[e[0]].add(e[1]);
+            adj[e[1]].add(e[0]);
+        }
+
+        // 2. Initialize arrays
+        LOG = 1;
+        while ((1 << LOG) <= n) {
+            LOG++;
+        }
+
+        up = new int[LOG][n];
+        depth = new int[n];
+        tin = new int[n];
+        tout = new int[n];
+        parent = new int[n];
+        prefixMask = new int[n];
+
+        // 3. DFS preprocessing
+        dfs();
+
+        // 4. Binary lifting table
+        for (int k = 1; k < LOG; k++) {
+            for (int u = 0; u < n; u++) {
+                up[k][u] = up[k - 1][up[k - 1][u]];
+            }
+        }
+
+        // 5. Segment tree for subtree XOR updates
+        seg = new SegmentTree(n);
+
+        // 6. Process queries
+        List<Boolean> answer = new ArrayList<>();
+
+        for (String query : queries) {
+            String[] p = query.split(" ");
+
+            if (p[0].equals("update")) {
+                int u = Integer.parseInt(p[1]);
+                char c = p[2].charAt(0);
+
+                int oldMask = 1 << (chars[u] - 'a');
+                int newMask = 1 << (c - 'a');
+                int delta = oldMask ^ newMask;
+
+                if (delta != 0) {
+                    seg.rangeXor(tin[u], tout[u], delta);
+                    chars[u] = c;
+                }
+
+            } else {
+                int u = Integer.parseInt(p[1]);
+                int v = Integer.parseInt(p[2]);
+
+                int lca = getLCA(u, v);
+
+                int prefixU = prefixMask[u]
+                        ^ seg.pointQuery(tin[u]);
+
+                int prefixV = prefixMask[v]
+                        ^ seg.pointQuery(tin[v]);
+
+                int lcaMask = 1 << (chars[lca] - 'a');
+
+                int mask = prefixU ^ prefixV ^ lcaMask;
+
+                answer.add(
+                    mask == 0 || (mask & (mask - 1)) == 0
+                );
+            }
+        }
+
+        return answer;
+    }
+
+    // DFS: Euler Tour, parent, depth and prefix masks
+    private void dfs() {
+        int[] stack = new int[n];
+        int[] next = new int[n];
+        int top = 0;
+
+        timer = 0;
+        stack[top++] = 0;
+
+        parent[0] = 0;
+        up[0][0] = 0;
+        prefixMask[0] = 1 << (chars[0] - 'a');
+        tin[0] = timer++;
+
+        while (top > 0) {
+            int u = stack[top - 1];
+
+            if (next[u] < adj[u].size()) {
+                int v = adj[u].get(next[u]++);
+
+                if (v == parent[u]) {
+                    continue;
+                }
+
+                parent[v] = u;
+                up[0][v] = u;
+                depth[v] = depth[u] + 1;
+
+                prefixMask[v] = prefixMask[u]
+                        ^ (1 << (chars[v] - 'a'));
+
+                tin[v] = timer++;
+                stack[top++] = v;
+
+            } else {
+                tout[u] = timer - 1;
+                top--;
+            }
+        }
+    }
+
+    // Binary Lifting LCA
+    private int getLCA(int u, int v) {
+        if (depth[u] < depth[v]) {
+            int temp = u;
+            u = v;
+            v = temp;
+        }
+
+        int diff = depth[u] - depth[v];
+
+        for (int k = 0; k < LOG; k++) {
+            if (((diff >> k) & 1) != 0) {
+                u = up[k][u];
+            }
+        }
+
+        if (u == v) {
+            return u;
+        }
+
+        for (int k = LOG - 1; k >= 0; k--) {
+            if (up[k][u] != up[k][v]) {
+                u = up[k][u];
+                v = up[k][v];
+            }
+        }
+
+        return parent[u];
+    }
+
+    // Segment Tree: range XOR update and point query
+    static class SegmentTree {
+        int n;
+        int[] lazy;
+
+        SegmentTree(int n) {
+            this.n = n;
+            lazy = new int[4 * n];
+        }
+
+        void rangeXor(int left, int right, int value) {
+            update(1, 0, n - 1, left, right, value);
+        }
+
+        private void update(
+                int node, int start, int end,
+                int left, int right, int value) {
+
+            if (right < start || end < left) {
+                return;
+            }
+
+            if (left <= start && end <= right) {
+                lazy[node] ^= value;
+                return;
+            }
+
+            int mid = start + (end - start) / 2;
+
+            update(node * 2, start, mid,
+                    left, right, value);
+
+            update(node * 2 + 1, mid + 1, end,
+                    left, right, value);
+        }
+
+        int pointQuery(int index) {
+            return query(1, 0, n - 1, index, 0);
+        }
+
+        private int query(
+                int node, int start, int end,
+                int index, int accumulated) {
+
+            accumulated ^= lazy[node];
+
+            if (start == end) {
+                return accumulated;
+            }
+
+            int mid = start + (end - start) / 2;
+
+            if (index <= mid) {
+                return query(node * 2, start, mid,
+                        index, accumulated);
+            }
+
+            return query(node * 2 + 1, mid + 1, end,
+                    index, accumulated);
+        }
+    }
+}
