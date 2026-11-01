@@ -2886,3 +2886,35 @@ class Solution {
         return result;
     }
 }
+
+--
+63. Maximum Subarray Sum with One Square Allowed {Type -> Medium} 01-11-2026
+Link: https://www.geeksforgeeks.org/problems/maximum-sum-subarray--143510/1
+Code:
+class Solution {
+    public int maximumSubarray(int[] arr) {
+
+        int noSquare = arr[0];
+        int oneSquare = arr[0] * arr[0];
+
+        int ans = oneSquare;
+
+        for (int i = 1; i < arr.length; i++) {
+
+            int num = arr[i];
+
+            int newOneSquare = Math.max(
+                oneSquare + num,
+                Math.max(noSquare + num * num, num * num)
+            );
+
+            noSquare = Math.max(noSquare + num, num);
+
+            oneSquare = newOneSquare;
+
+            ans = Math.max(ans, Math.max(noSquare, oneSquare));
+        }
+
+        return ans;
+    }
+}
