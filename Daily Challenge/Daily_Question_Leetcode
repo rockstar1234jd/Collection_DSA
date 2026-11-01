@@ -2790,3 +2790,25 @@ class Solution {
         return -1;
     }
 }
+
+---
+63. Minimum Moves to Equal Array Elements {Type -> Medium} Leetcode -> 453
+Link: https://leetcode.com/problems/minimum-moves-to-equal-array-elements/
+Code:
+class Solution {
+    public int minMoves(int[] nums) {
+
+        int min = nums[0];
+        int moves = 0;
+
+        for (int num : nums) {
+            min = Math.min(min, num);
+        }
+
+        for (int num : nums) {
+            moves += num - min;
+        }
+
+        return moves;
+    }
+}
