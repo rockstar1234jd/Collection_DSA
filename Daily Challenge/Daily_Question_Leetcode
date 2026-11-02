@@ -2812,3 +2812,25 @@ class Solution {
         return moves;
     }
 }
+
+---
+64. Minimum Moves to Equal Array Elements II {Type -> Medium} Leetcode -> 462
+Link: https://leetcode.com/problems/minimum-moves-to-equal-array-elements-ii
+Code:
+class Solution {
+    public int minMoves2(int[] nums) {
+
+        Arrays.sort(nums);
+
+        int n = nums.length;
+        int median = nums[n / 2];
+
+        int moves = 0;
+
+        for (int i = 0; i < n; i++) {
+            moves += Math.abs(nums[i] - median);
+        }
+
+        return moves;
+    }
+}
