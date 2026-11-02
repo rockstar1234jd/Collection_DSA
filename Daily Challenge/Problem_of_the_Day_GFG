@@ -2918,3 +2918,52 @@ class Solution {
         return ans;
     }
 }
+
+---
+64. Largest Sum Cycle {Type -> Hard} 02-11-2026
+Link: https://www.geeksforgeeks.org/problems/largest-sum-cycle--170645/1
+Code:
+class Solution {
+    public int largestSumCycle(int[] edge) {
+        int n = edge.length;
+
+        boolean[] visited = new boolean[n];
+        int[] time = new int[n];
+
+        int ans = -1;
+        int timer = 1;
+
+        for (int i = 0; i < n; i++) {
+
+            if (visited[i]) {
+                continue;
+            }
+
+            int curr = i;
+
+            // Traverse the current path
+            while (curr != -1 && !visited[curr]) {
+                visited[curr] = true;
+                time[curr] = timer++;
+
+                curr = edge[curr];
+            }
+
+            // Check whether we found a cycle
+            if (curr != -1 && time[curr] >= time[i]) {
+
+                int sum = 0;
+                int node = curr;
+
+                do {
+                    sum += node;
+                    node = edge[node];
+                } while (node != curr);
+
+                ans = Math.max(ans, sum);
+            }
+        }
+
+        return ans;
+    }
+}
