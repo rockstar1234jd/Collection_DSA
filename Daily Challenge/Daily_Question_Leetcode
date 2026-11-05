@@ -3026,3 +3026,52 @@ class Solution {
         return prev[n];
     }
 }
+---
+67. Find the Distance Value Between Two Arrays {Type -> Easy} Leetcode -> 1385
+Link: https://leetcode.com/problems/find-the-distance-value-between-two-arrays
+Code:
+class Solution {
+    public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
+
+        Arrays.sort(arr2);
+
+        int count = 0;
+
+        for (int num : arr1) {
+
+            int left = 0;
+            int right = arr2.length;
+
+            // Find the first element >= num
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+
+                if (arr2[mid] < num) {
+                    left = mid + 1;
+                } else {
+                    right = mid;
+                }
+            }
+
+            boolean valid = true;
+
+            // Check the next greater or equal element
+            if (left < arr2.length &&
+                (long) arr2[left] - num <= d) {
+                valid = false;
+            }
+
+            // Check the previous smaller element
+            if (left > 0 &&
+                (long) num - arr2[left - 1] <= d) {
+                valid = false;
+            }
+
+            if (valid) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
