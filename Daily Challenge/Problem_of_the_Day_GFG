@@ -3098,3 +3098,34 @@ class Solution {
         return ans;
     }
 }
+---
+67. Minimum Days {Type ->Medium} 05-11-2026
+Link: https://www.geeksforgeeks.org/problems/minimum-days--170646/1
+Code:
+class Solution {
+    public int getMinimumDays(String s, int[] p) {
+
+        int n = s.length();
+        int[] day = new int[n];
+
+        // Store the replacement day for each index
+        for (int i = 0; i < n; i++) {
+            day[p[i]] = i + 1;
+        }
+
+        int ans = 0;
+
+        // Check adjacent characters
+        for (int i = 0; i < n - 1; i++) {
+
+            if (s.charAt(i) == s.charAt(i + 1)) {
+
+                int firstDay = Math.min(day[i], day[i + 1]);
+
+                ans = Math.max(ans, firstDay);
+            }
+        }
+
+        return ans;
+    }
+}
