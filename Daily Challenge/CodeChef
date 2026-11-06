@@ -427,3 +427,26 @@ Scanner sc = new Scanner(System.in);
                 }
             }
             System.out.println(count);
+---
+28. Sasta Shark Tank {Difficulty -> 592} 06-11-2026
+Link: https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/SST
+Code:
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+        Scanner sc  = new Scanner(System.in);
+        int times = sc.nextInt();
+        
+        while(times --> 0 ){
+            int A = sc.nextInt();
+            int B = sc.nextInt();
+            
+            String result = (A/10 > B/20) ? "FIRST": (A/10 == B/20) ? "ANY":"SECOND";
+            System.out.println(result);
+        }
+	}
+}
