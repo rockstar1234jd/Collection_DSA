@@ -3129,3 +3129,31 @@ class Solution {
         return ans;
     }
 }
+---
+68. Balanced Binary Tree Counter {Type -> Easy} 06-11-2026
+Link: https://www.geeksforgeeks.org/problems/bbt-counter4914/1
+Code:
+class Solution {
+    public int countBT(int h) {
+        long mod = 1000000007;
+
+        if (h == 0 || h == 1) {
+            return 1;
+        }
+
+        long prev2 = 1; // Height 0
+        long prev1 = 1; // Height 1
+
+        for (int i = 2; i <= h; i++) {
+
+            long curr = (prev1 * prev1) % mod;
+
+            curr = (curr + (2 * prev1 % mod) * prev2) % mod;
+
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return (int) prev1;
+    }
+}
