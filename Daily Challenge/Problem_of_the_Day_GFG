@@ -3157,3 +3157,48 @@ class Solution {
         return (int) prev1;
     }
 }
+---
+69. Generate Usernames {Type ->Easy} 07-11-2026
+Link: https://www.geeksforgeeks.org/problems/new-registration-system--150419/1
+Code:
+class Solution {
+    public ArrayList<String> generateUsernames(String[] arr) {
+        
+        ArrayList<String> ans = new ArrayList<>();
+        HashSet<String> used = new HashSet<>();
+        HashMap<String, Integer> map = new HashMap<>();
+
+        // Initially reserve all original usernames
+        for (String s : arr) {
+            used.add(s);
+        }
+
+        for (String s : arr) {
+
+            // If username has not been assigned before
+            if (!map.containsKey(s)) {
+                ans.add(s);
+                map.put(s, 1);
+            } 
+            else {
+                int count = map.get(s);
+
+                String newName = s + count;
+
+                // Find the smallest available suffix
+                while (used.contains(newName)) {
+                    count++;
+                    newName = s + count;
+                }
+
+                ans.add(newName);
+                used.add(newName);
+
+                // Store next suffix for this username
+                map.put(s, count + 1);
+            }
+        }
+
+        return ans;
+    }
+}
