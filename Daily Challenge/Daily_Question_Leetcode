@@ -3212,3 +3212,44 @@ class Solution {
         return ans;
     }
 }
+---
+70. Count Servers that Communicate {Type -> Medium} leetcode -> 1267
+Link: https://leetcode.com/problems/count-servers-that-communicate/
+Code:
+ class Solution {
+    public int countServers(int[][] grid) {
+
+        int m = grid.length;
+        int n = grid[0].length;
+
+        int[] row = new int[m];
+        int[] col = new int[n];
+
+        // Count servers in each row and column
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+
+                if (grid[i][j] == 1) {
+                    row[i]++;
+                    col[j]++;
+                }
+            }
+        }
+
+        int count = 0;
+
+        // Check which servers can communicate
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+
+                if (grid[i][j] == 1 &&
+                    (row[i] > 1 || col[j] > 1)) {
+
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+}
