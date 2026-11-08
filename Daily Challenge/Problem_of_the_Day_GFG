@@ -3202,3 +3202,31 @@ class Solution {
         return ans;
     }
 }
+---
+70. Minimum Time with 2 Scanners {Type -> Easy} 08-11-2026
+Link: https://www.geeksforgeeks.org/problems/find-the-minimum-time0253/1
+Code:
+class Solution {
+    public int minTime(int n, int s1, int s2) {
+
+        int low = 0, high = n;
+        long ans = Long.MAX_VALUE;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            long time1 = (long) mid * s1;
+            long time2 = (long) (n - mid) * s2;
+
+            ans = Math.min(ans, Math.max(time1, time2));
+
+            if (time1 < time2) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return (int) ans;
+    }
+}
