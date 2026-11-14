@@ -3341,3 +3341,44 @@ class Solution {
         return ans;
     }
 }
+---
+74. Max Equal Sum in 3 Stacks {Type -> Medium} 14-11-2026
+Link: https://www.geeksforgeeks.org/problems/find-maximum-equal-sum-of-three-stacks/1
+Code:
+class Solution {
+    public int maxEqualSum(ArrayList<Integer> s1, ArrayList<Integer> s2,
+                           ArrayList<Integer> s3) {
+
+        long sum1 = 0, sum2 = 0, sum3 = 0;
+
+        // Calculate initial sums
+        for (int x : s1) sum1 += x;
+        for (int x : s2) sum2 += x;
+        for (int x : s3) sum3 += x;
+
+        int i = 0, j = 0, k = 0;
+
+        // Remove elements from the stack with maximum sum
+        while (true) {
+
+            if (sum1 == sum2 && sum2 == sum3) {
+                return (int) sum1;
+            }
+
+            // If any stack becomes empty, equal sum is 0
+            if (i == s1.size() || j == s2.size() || k == s3.size()) {
+                return 0;
+            }
+
+            if (sum1 >= sum2 && sum1 >= sum3) {
+                sum1 -= s1.get(i++);
+            }
+            else if (sum2 >= sum1 && sum2 >= sum3) {
+                sum2 -= s2.get(j++);
+            }
+            else {
+                sum3 -= s3.get(k++);
+            }
+        }
+    }
+}
