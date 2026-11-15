@@ -2171,7 +2171,9 @@ class Solution {
 Link: https://www.geeksforgeeks.org/problems/your-social-network0328/1
 Code:
 class Solution {
+
     public ArrayList<ArrayList<Integer>> socialNetwork(int[] arr) {
+
         ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
 
         int n = arr.length + 1;
