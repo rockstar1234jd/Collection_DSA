@@ -3384,3 +3384,31 @@ class Solution {
         }
     }
 }
+---
+75. K-th Missing in Natural Numbers {Type -> Medium} 16-11-2026
+Link: https://www.geeksforgeeks.org/problems/k-th-missing-element-in-natural-numbers/1
+Code:
+class Solution {
+    public int findKthSmall(int[] arr, int k) {
+        
+        Arrays.sort(arr);
+
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            // Missing numbers before arr[mid]
+            int missing = arr[mid] - (mid + 1);
+
+            if (missing < k) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return low + k;
+    }
+}
