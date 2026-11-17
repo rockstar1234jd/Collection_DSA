@@ -3412,3 +3412,44 @@ class Solution {
         return low + k;
     }
 }
+---
+75 Repeated Pattern Check {Type -> Easy} 17-11-2026
+Link:https://www.geeksforgeeks.org/problems/the-pattern-matcher/1
+Code:
+
+class Solution {
+    public boolean findPattern(String s) {
+        int i = 0;
+        int n = s.length();
+
+        while (i < n) {
+            // Count consecutive x's
+            int countX = 0;
+
+            while (i < n && s.charAt(i) == 'x') {
+                countX++;
+                i++;
+            }
+
+            // Every group must start with x
+            if (countX == 0) {
+                return false;
+            }
+
+            // Count consecutive y's
+            int countY = 0;
+
+            while (i < n && s.charAt(i) == 'y') {
+                countY++;
+                i++;
+            }
+
+            // Number of x's and y's must be equal
+            if (countX != countY) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
