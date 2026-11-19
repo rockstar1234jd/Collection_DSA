@@ -42,7 +42,7 @@ The index i provided to get(int i) and set(int i) is guaranteed to be greater th
 
 
 ==> Solution:
-# Dynamic Array implementation
+# Dynamic Array implementation..
 # Note: Python lists are dynamic arrays by default,
 # but this is an example of what's going on under the hood.
 class DynamicArray:
