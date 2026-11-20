@@ -78,7 +78,6 @@ class Solution {
         return -1;
     }
 }
-
 ---
 3. Secret Cipher {Type -> Hard} 18-08-2026
 Link: https://www.geeksforgeeks.org/problems/secret-cipher--141631/1
@@ -112,7 +111,6 @@ class Solution {
         return ans.reverse().toString();
     }
 }
-
 ---
 4. Triplets with Sum in Range {Type -> Medium} 19-08-2026
 Link: https://www.geeksforgeeks.org/problems/triplets-with-sum-with-given-range/1
