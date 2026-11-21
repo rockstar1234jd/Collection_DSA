@@ -3595,3 +3595,94 @@ class Solution {
         return count;
     }
 }
+---
+77. Find Subtree Sizes After Changes {Type -> Medium} Leetcode -> 3331
+Link: https://leetcode.com/problems/find-subtree-sizes-after-changes
+Code:
+import java.util.*;
+
+class Solution {
+    public int[] findSubtreeSizes(int[] parent, String s) {
+        int n = parent.length;
+
+        // Build original tree
+        int[] head = new int[n];
+        int[] to = new int[n];
+        int[] next = new int[n];
+
+        Arrays.fill(head, -1);
+
+        int idx = 0;
+
+        for (int i = 1; i < n; i++) {
+            to[idx] = i;
+            next[idx] = head[parent[i]];
+            head[parent[i]] = idx++;
+        }
+
+        int[] newParent = new int[n];
+        int[] last = new int[26];
+        int[] oldLast = new int[n];
+
+        Arrays.fill(last, -1);
+
+        // Iterative DFS using enter/exit events
+        int[] stack = new int[2 * n + 5];
+        int top = 0;
+
+        int[] order = new int[n];
+        int count = 0;
+
+        stack[top++] = 0;
+
+        while (top > 0) {
+            int event = stack[--top];
+
+            // Exit event
+            if (event < 0) {
+                int node = ~event;
+                int c = s.charAt(node) - 'a';
+
+                last[c] = oldLast[node];
+                continue;
+            }
+
+            // Enter event
+            int node = event;
+            int c = s.charAt(node) - 'a';
+
+            oldLast[node] = last[c];
+
+            if (node == 0) {
+                newParent[node] = -1;
+            } else {
+                newParent[node] = (last[c] != -1)
+                    ? last[c]
+                    : parent[node];
+            }
+
+            last[c] = node;
+
+            order[count++] = node;
+
+            // Schedule exit event
+            stack[top++] = ~node;
+
+            // Visit original children
+            for (int e = head[node]; e != -1; e = next[e]) {
+                stack[top++] = to[e];
+            }
+        }
+
+        // Calculate final subtree sizes
+        int[] ans = new int[n];
+        Arrays.fill(ans, 1);
+
+        for (int i = n - 1; i > 0; i--) {
+            int node = order[i];
+            ans[newParent[node]] += ans[node];
+        }
+
+        return ans;
+    }
+}
