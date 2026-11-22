@@ -3686,3 +3686,27 @@ class Solution {
         return ans;
     }
 }
+---
+78. Check if All A's Appears Before All B's {Type -> Easy} Leetcode -> 2124
+Link: https://leetcode.com/problems/check-if-all-as-appears-before-all-bs
+Code:
+
+class Solution {
+    public boolean checkString(String s) {
+
+        boolean foundB = false;
+
+        for (int i = 0; i < s.length(); i++) {
+
+            if (s.charAt(i) == 'b') {
+                foundB = true;
+            }
+
+            if (s.charAt(i) == 'a' && foundB) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
