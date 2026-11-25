@@ -3501,3 +3501,41 @@ class Solution {
         return minLen == Integer.MAX_VALUE ? 0 : minLen;
     }
 }
+---
+78. Geek's Destination with Special Jump {Type -> Hard} 25-11-2026
+Link: https://www.geeksforgeeks.org/problems/geek-and-her-destination--145724/1
+Code:
+class Solution {
+    public int minTime(int a, int b, int d, int l, int r) {
+        long mod = 1000000007L;
+
+        long left = (long) d - r;
+        long right = (long) d - l;
+        long k = a - b;
+
+        long ans = prefix(right, a, b, k)
+                 - prefix(left - 1, a, b, k);
+
+        return (int) ((ans % mod + mod) % mod);
+    }
+
+    private long prefix(long x, long a, long b, long k) {
+        if (x <= 0) return 0;
+
+        long sum = x * (x + 3) / 2;
+
+        if (x > a) {
+            long n = x - a;
+
+            long q = n / k;
+            long rem = n % k;
+
+            long cycles = k * q * (q + 1) / 2
+                        + rem * (q + 1);
+
+            sum += 2 * b * cycles;
+        }
+
+        return sum % 1000000007L;
+    }
+}
