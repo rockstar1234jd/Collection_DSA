@@ -3710,3 +3710,68 @@ class Solution {
         return true;
     }
 }
+---
+79. Smallest Unique Subarray {Type -> Hard} Leetcode -> 3934
+Link: https://leetcode.com/problems/smallest-unique-subarray
+Code:
+class Solution {
+    public int smallestUniqueSubarray(int[] nums) {
+        int n = nums.length;
+        long base = 100003;
+        long mod1 = 1000000007;
+        long mod2 = 1000000009;
+
+        long[] h1 = new long[n + 1];
+        long[] h2 = new long[n + 1];
+        long[] p1 = new long[n + 1];
+        long[] p2 = new long[n + 1];
+
+        p1[0] = p2[0] = 1;
+
+        for (int i = 0; i < n; i++) {
+            h1[i + 1] = (h1[i] * base + nums[i]) % mod1;
+            h2[i + 1] = (h2[i] * base + nums[i]) % mod2;
+
+            p1[i + 1] = p1[i] * base % mod1;
+            p2[i + 1] = p2[i] * base % mod2;
+        }
+
+        int low = 1, high = n;
+
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+
+            java.util.HashMap<Long, Integer> map =
+                new java.util.HashMap<>();
+
+            for (int i = 0; i + mid <= n; i++) {
+                long x = (h1[i + mid] - h1[i] * p1[mid]
+                          % mod1 + mod1) % mod1;
+
+                long y = (h2[i + mid] - h2[i] * p2[mid]
+                          % mod2 + mod2) % mod2;
+
+                long key = (x << 32) | y;
+
+                map.put(key, map.getOrDefault(key, 0) + 1);
+            }
+
+            boolean found = false;
+
+            for (int freq : map.values()) {
+                if (freq == 1) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return low;
+    }
+}
